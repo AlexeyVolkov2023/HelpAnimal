@@ -2,36 +2,35 @@
 
 public class Animal
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; } = String.Empty;
-    public string Species { get; set; } = String.Empty;// Вид (собака, кошка и т.д.)
-    public string Description { get; set; } = String.Empty;
-    public string Breed { get; set; } = String.Empty;// Порода
-    public string Color { get; set; } = String.Empty;
-    public string HealthInfo { get; set; } = String.Empty;
-    public string Address { get; set; } = String.Empty;
-    public double Weight { get; set; } 
-    public double Height { get; set; } 
-    public string OwnerContactNumber { get; set; } = String.Empty;// Номер телефона для связи с владельцем
-    public bool IsNeutered { get; set; } // Кастрирован или нет
-    public DateTime DateOfBirth { get; set; } 
-    public bool IsVaccinated { get; set; } 
-    public HelpStatus Status { get; set; } // Статус помощи
-    public HelpDetails HelpDetails { get; set; } // Реквизиты для помощи
-    
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public Guid Id { get; private set; }
+    public string Name { get; private set; } = String.Empty;
+    public string Species { get; private set; } = String.Empty;// Вид (собака, кошка и т.д.)
+    public string Description { get; private set; } = String.Empty;
+    public string Breed { get;private set; } = String.Empty;// Порода
+    public string Color { get;private set; } = String.Empty;
+    public string HealthInfo { get;private set; } = String.Empty;
+    public string Address { get;private set; } = String.Empty;
+    public double Weight { get;private set; } 
+    public double Height { get;private set; } 
+    public string OwnerContactNumber { get;private set; } = String.Empty;// Номер телефона для связи с владельцем
+    public bool IsNeutered { get;private set; } // Кастрирован или нет
+    public DateTime DateOfBirth { get;private set; } 
+    public bool IsVaccinated { get;private set; } 
+    public HelpStatus Status { get;private set; } // Статус помощи
+    public List<HelpDetails> HelpDetails { get;private set; } // Реквизиты для помощи
+    public DateTime CreatedAt { get; set; } 
 
     
-    public static Animal Create (Guid id, string name, string species, string description,
+    public static Animal Create (string name, string species, string description,
                                        string breed, string color, string healthInfo,
                                        string address, double weight, double height,
                                        string ownerContactNumber, bool isNeutered,
                                        DateTime dateOfBirth, bool isVaccinated,
-                                       HelpStatus status, HelpDetails helpDetails)
+                                       HelpStatus status, List<HelpDetails> helpDetails)
     {
         return new Animal
         {
-            Id = id,
+            Id = Guid.NewGuid(),
             Name = name,
             Species = species,
             Description = description,
@@ -47,6 +46,7 @@ public class Animal
             IsVaccinated = isVaccinated,
             Status = status,
             HelpDetails = helpDetails,
+            CreatedAt = DateTime.Now,
         };
     }
 }
