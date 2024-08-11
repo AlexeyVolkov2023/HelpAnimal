@@ -2,6 +2,31 @@
 
 public class Animal
 {
+     private Animal(string name, string species, string description,
+                     string breed, string color, string healthInfo, string address,
+                     double weight, double height, string ownerContactNumber, 
+                     bool isNeutered, DateTime dateOfBirth, bool isVaccinated, 
+                     HelpStatus status, List<HelpDetails> helpDetails, List<AnimalPhoto> photos)
+    {
+        Name = name;
+        Species = species;
+        Description = description;
+        Breed = breed;
+        Color = color;
+        HealthInfo = healthInfo;
+        Address = address;
+        Weight = weight;
+        Height = height;
+        OwnerContactNumber = ownerContactNumber;
+        IsNeutered = isNeutered;
+        DateOfBirth = dateOfBirth;
+        IsVaccinated = isVaccinated;
+        Status = status;
+        CreatedAt = DateTime.Now;
+        HelpDetails = helpDetails;
+        Photos = photos;
+    }
+
     public Guid Id { get; private set; }
     public string Name { get; private set; } = default!;
     public string Species { get; private set; } = default!;// Вид (собака, кошка и т.д.)
@@ -22,33 +47,17 @@ public class Animal
     public List<AnimalPhoto> Photos { get; private set; } = []; // Список фотографий
 
     
-    public static Animal Create (string name, string species, string description,
-                                       string breed, string color, string healthInfo,
-                                       string address, double weight, double height,
-                                       string ownerContactNumber, bool isNeutered,
-                                       DateTime dateOfBirth, bool isVaccinated,
-                                       HelpStatus status, List<HelpDetails> helpDetails,
-                                       List<AnimalPhoto> photos)
-    {
-        return new Animal
+   
+        public static Animal Create(string name, string species, string description,
+                                        string breed, string color, string healthInfo,
+                                        string address, double weight, double height,
+                                        string ownerContactNumber, bool isNeutered,
+                                        DateTime dateOfBirth, bool isVaccinated,
+                                        HelpStatus status, List<HelpDetails> helpDetails,
+                                        List<AnimalPhoto> photos)
         {
-            Name = name,
-            Species = species,
-            Description = description,
-            Breed = breed,
-            Color = color,
-            HealthInfo = healthInfo,
-            Address = address,
-            Weight = weight,
-            Height = height,
-            OwnerContactNumber = ownerContactNumber,
-            IsNeutered = isNeutered,
-            DateOfBirth = dateOfBirth,
-            IsVaccinated = isVaccinated,
-            Status = status,
-            HelpDetails = helpDetails,
-            CreatedAt = DateTime.Now,
-            Photos = photos,
-        };
+            return new Animal(name, species, description, breed, color, healthInfo,
+                address, weight, height, ownerContactNumber, isNeutered,
+                dateOfBirth, isVaccinated, status, helpDetails, photos);
+        }
     }
-}

@@ -1,6 +1,24 @@
 ﻿namespace HelpAnimal.Domain.Models;
 public class Volunteer
 {
+    private Volunteer(string fullName, string description, int experienceYears,
+                        int adoptedAnimalsCount, int currentAnimalsCount,
+                        int animalsInTreatmentCount, string phoneNumber,
+                        List<SocialNetwork> socialNetwork, List<HelpDetails> requisite,
+                        List<Animal> animals)
+    {
+        FullName = fullName;
+        Description = description;
+        ExperienceYears = experienceYears;
+        AdoptedAnimalsCount = adoptedAnimalsCount;
+        CurrentAnimalsCount = currentAnimalsCount;
+        AnimalsInTreatmentCount = animalsInTreatmentCount;
+        PhoneNumber = phoneNumber;
+        SocialNetworks = socialNetwork;
+        Requisite = requisite;
+        Animals = animals;
+    }
+
     public Guid Id { get;private set; } // Идентификатор
     public string FullName { get; private set; } = default!;
     public string Description { get;private set; } = default!;
@@ -20,18 +38,8 @@ public class Volunteer
                                     List<HelpDetails> requisite,
                                     List<Animal> animals)
     {
-        return new Volunteer
-        {
-            FullName = fullName,
-            Description = description,
-            ExperienceYears = experienceYears,
-            AdoptedAnimalsCount = adoptedAnimalsCount,
-            CurrentAnimalsCount = currentAnimalsCount,
-            AnimalsInTreatmentCount = animalsInTreatmentCount,
-            PhoneNumber = phoneNumber,
-            SocialNetworks = socialNetworks,
-            Requisite = requisite,
-            Animals = animals,
-        };
+        return new Volunteer(fullName, description, experienceYears, adoptedAnimalsCount,
+                                currentAnimalsCount, animalsInTreatmentCount, phoneNumber, 
+                                socialNetworks, requisite, animals);
     }
 }
