@@ -11,7 +11,7 @@ public class Volunteer
     public string PhoneNumber { get;private set; } 
     public List<SocialNetwork> SocialNetworks { get;private set; } // Список социальных сетей
     public List<HelpDetails> Requisite { get;private set; } 
-    public List<Animal> Animals { get; set; } // Список домашних животных
+    public List<Animal> Animals { get;private set; } // Список домашних животных
 
     public static Volunteer Create(string fullName, string description, int experienceYears,
                                     int adoptedAnimalsCount, int currentAnimalsCount,
@@ -22,7 +22,6 @@ public class Volunteer
     {
         return new Volunteer
         {
-            Id = new Guid(),
             FullName = fullName,
             Description = description,
             ExperienceYears = experienceYears,
