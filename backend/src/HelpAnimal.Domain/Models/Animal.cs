@@ -30,7 +30,6 @@ public class Animal
     {
         return new Animal
         {
-            Id = Guid.NewGuid(),
             Name = name,
             Species = species,
             Description = description,
