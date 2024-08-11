@@ -5,9 +5,12 @@ public class HelpDetails
     public string Requisite { get; set; } // Название реквизита
     public string Description { get; set; } // Описание, как сделать перевод
     
-    public HelpDetails(string requisite, string description)
+    public static HelpDetails Create (string requisite, string description)
     {
-        Requisite = requisite;
-        Description = description;
+        return new HelpDetails()
+        {
+            Requisite = requisite,
+            Description = description,
+        };
     }
 }
