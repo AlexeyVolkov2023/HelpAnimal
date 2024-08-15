@@ -2,11 +2,15 @@
 
 public class Animal
 {
+    public Animal()
+    {
+    }
+    
      private Animal(string name, string species, string description,
                      string breed, string color, string healthInfo, string address,
                      double weight, double height, string ownerContactNumber, 
                      bool isNeutered, DateTime dateOfBirth, bool isVaccinated, 
-                     HelpStatus status, List<HelpDetails> helpDetails, List<AnimalPhoto> photos)
+                     HelpStatus status, List<HelpDetail> requisite, List<AnimalPhoto> photos)
     {
         Name = name;
         Species = species;
@@ -23,9 +27,11 @@ public class Animal
         IsVaccinated = isVaccinated;
         Status = status;
         CreatedAt = DateTime.Now;
-        HelpDetails = helpDetails;
+        Requisite = requisite;
         Photos = photos;
     }
+
+    
 
     public Guid Id { get; private set; }
     public string Name { get; private set; } = default!;
@@ -42,10 +48,12 @@ public class Animal
     public DateTime DateOfBirth { get;private set; } 
     public bool IsVaccinated { get;private set; } 
     public HelpStatus Status { get;private set; } // Статус помощи
-    public List<HelpDetails> HelpDetails { get; private set; } = [];// Реквизиты для помощи
     public DateTime CreatedAt { get; set; }
-    public List<AnimalPhoto> Photos { get; private set; } = []; // Список фотографий
-
+    public List<AnimalPhoto> Photos { get; private set; } = []; 
+    public List<HelpDetail> Requisite { get; private set; } = [];
+    
+    
+    
     
    
         public static Animal Create(string name, string species, string description,
@@ -53,11 +61,11 @@ public class Animal
                                         string address, double weight, double height,
                                         string ownerContactNumber, bool isNeutered,
                                         DateTime dateOfBirth, bool isVaccinated,
-                                        HelpStatus status, List<HelpDetails> helpDetails,
+                                        HelpStatus status, List<HelpDetail> requisite,
                                         List<AnimalPhoto> photos)
         {
             return new Animal(name, species, description, breed, color, healthInfo,
                 address, weight, height, ownerContactNumber, isNeutered,
-                dateOfBirth, isVaccinated, status, helpDetails, photos);
+                dateOfBirth, isVaccinated, status, requisite, photos);
         }
     }

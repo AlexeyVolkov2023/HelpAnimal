@@ -8,8 +8,9 @@ public class SocialNetwork
         Link = link;
     }
 
-    public string Name { get;private set; } // Название социальной сети
-    public string Link { get;private set; } // Ссылка на профиль
+    public Guid Id { get; private set; }
+    public string Name { get;private set; } 
+    public string Link { get;private set; } 
 
     public static SocialNetwork Create(string name, string link)
     {
