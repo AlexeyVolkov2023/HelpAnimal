@@ -3,15 +3,14 @@ public class Volunteer
 {
     private  Volunteer()
     {
-        SocialNetworks = new List<SocialNetwork>();
-        Requisite = new List<HelpDetail>();
-        Animals = new List<Animal>();
+       
+        
     }
 
     private Volunteer(string fullName, string description, int experienceYears,
                         int adoptedAnimalsCount, int currentAnimalsCount,
                         int animalsInTreatmentCount, string phoneNumber,
-                        List<SocialNetwork> socialNetwork, List<HelpDetail> requisite,
+                        SocialDetails socialNetwork, RequisiteDetails requisite,
                         List<Animal> animals)
     {
         FullName = fullName;
@@ -22,7 +21,7 @@ public class Volunteer
         AnimalsInTreatmentCount = animalsInTreatmentCount;
         PhoneNumber = phoneNumber;
         SocialNetworks = socialNetwork;
-        Requisite = requisite;
+        RequisiteCollection = requisite;
         Animals = animals;
     }
 
@@ -34,15 +33,15 @@ public class Volunteer
     public int CurrentAnimalsCount { get;private set; } // Количество домашних животных, которые ищут дом
     public int AnimalsInTreatmentCount { get;private set; } // Количество животных на лечении
     public string PhoneNumber { get;private set; } = default!;
-    public List<SocialNetwork> SocialNetworks { get; private set; } = [];// Список социальных сетей
-    public List<HelpDetail> Requisite { get;private set; }  = [];
+    public SocialDetails SocialNetworks { get; private set; } 
+    public RequisiteDetails RequisiteCollection { get;private set; } 
     public List<Animal> Animals { get;private set; }  = [];// Список домашних животных
 
     public static Volunteer Create(string fullName, string description, int experienceYears,
                                     int adoptedAnimalsCount, int currentAnimalsCount,
                                     int animalsInTreatmentCount, string phoneNumber,
-                                    List<SocialNetwork> socialNetworks,
-                                    List<HelpDetail> requisite,
+                                    SocialDetails socialNetworks,
+                                    RequisiteDetails requisite,
                                     List<Animal> animals)
     {
         return new Volunteer(fullName, description, experienceYears, adoptedAnimalsCount,

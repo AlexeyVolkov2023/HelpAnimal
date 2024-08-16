@@ -58,16 +58,32 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
         builder.Property(a => a.IsVaccinated)
             .IsRequired();
 
-        builder.Property(a => a.Status)
-            .IsRequired();
+        builder.ComplexProperty(a => a.Status, b =>
+        {
+            b.IsRequired();
+            b.Property(c => c.Value).IsRequired();
+        });
+            
 
-        builder.HasMany(a => a.Photos)
-            .WithOne()
-            .HasForeignKey("animal_id");
+        builder.OwnsOne(a => a.AnimalPhotos, a =>
+        {
+            a.ToJson();
+                a.OwnsMany(e => e.Photos, d =>
+            {
+                d.Property(r => r.StoragePath).IsRequired();
+                d.Property(r => r.IsMain).IsRequired();
+            });
+        });
 
-        builder.HasMany(a => a.Requisite)
-            .WithOne()
-            .HasForeignKey("animal_id");
+        builder.OwnsOne(a => a.RequisiteCollection, a =>
+        {
+            a.ToJson();
+            a.OwnsMany(e => e.Requisites, d =>
+            {
+                d.Property(r => r.Title).IsRequired();
+                d.Property(r => r.Description).IsRequired();
+            });
+        });
 
 
     }

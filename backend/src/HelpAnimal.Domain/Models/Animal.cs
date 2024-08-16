@@ -10,7 +10,7 @@ public class Animal
                      string breed, string color, string healthInfo, string address,
                      double weight, double height, string ownerContactNumber, 
                      bool isNeutered, DateTime dateOfBirth, bool isVaccinated, 
-                     HelpStatus status, List<HelpDetail> requisite, List<AnimalPhoto> photos)
+                     HelpStatus status, RequisiteDetails requisites, AnimalPhotosDetails animalPhotos)
     {
         Name = name;
         Species = species;
@@ -27,8 +27,8 @@ public class Animal
         IsVaccinated = isVaccinated;
         Status = status;
         CreatedAt = DateTime.Now;
-        Requisite = requisite;
-        Photos = photos;
+        RequisiteCollection = requisites;
+        AnimalPhotos = animalPhotos;
     }
 
     
@@ -49,8 +49,8 @@ public class Animal
     public bool IsVaccinated { get;private set; } 
     public HelpStatus Status { get;private set; } // Статус помощи
     public DateTime CreatedAt { get; set; }
-    public List<AnimalPhoto> Photos { get; private set; } = []; 
-    public List<HelpDetail> Requisite { get; private set; } = [];
+    public AnimalPhotosDetails AnimalPhotos { get; private set; } 
+    public RequisiteDetails RequisiteCollection { get; private set; } 
     
     
     
@@ -61,11 +61,11 @@ public class Animal
                                         string address, double weight, double height,
                                         string ownerContactNumber, bool isNeutered,
                                         DateTime dateOfBirth, bool isVaccinated,
-                                        HelpStatus status, List<HelpDetail> requisite,
-                                        List<AnimalPhoto> photos)
+                                        HelpStatus status, RequisiteDetails requisites,
+                                        AnimalPhotosDetails animalPhotos)
         {
             return new Animal(name, species, description, breed, color, healthInfo,
                 address, weight, height, ownerContactNumber, isNeutered,
-                dateOfBirth, isVaccinated, status, requisite, photos);
+                dateOfBirth, isVaccinated, status, requisites , animalPhotos);
         }
     }

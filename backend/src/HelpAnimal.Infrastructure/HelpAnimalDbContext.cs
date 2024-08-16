@@ -1,4 +1,5 @@
 ﻿using HelpAnimal.Domain.Models;
+using HelpAnimal.Infrastructura.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -13,9 +14,7 @@ public class HelpAnimalDbContext (IConfiguration configuration) : DbContext
     
     public DbSet<Animal> Animals { get; set; }
     public DbSet<Volunteer> Volunteers { get; set; }
-    public DbSet<HelpDetail> HelpDetails { get; set; }
-    public DbSet<SocialNetwork> SocialNetworks { get; set; }
-    public DbSet<AnimalPhoto> AnimalPhotos { get; set; }
+  
     
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -23,6 +22,11 @@ public class HelpAnimalDbContext (IConfiguration configuration) : DbContext
         optionsBuilder.UseNpgsql(configuration.GetConnectionString(ALEX ));
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+    }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(HelpAnimalDbContext).Assembly);
     }
 
     private ILoggerFactory CreateLoggerFactory() =>

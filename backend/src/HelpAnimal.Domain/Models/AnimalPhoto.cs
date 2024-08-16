@@ -1,16 +1,19 @@
 ﻿namespace HelpAnimal.Domain.Models;
 
-public class AnimalPhoto
+public record AnimalPhoto
 {
+    public AnimalPhoto()
+    {
+        
+    }
     private AnimalPhoto(string storagePath, bool isMain)
     {
         StoragePath = storagePath;
         IsMain = isMain;
     }
 
-    public Guid Id { get; private set; }
-    public string StoragePath { get; private set; } = default!;
-    public bool IsMain { get; private set; }
+    public string StoragePath { get; } = default!;
+    public bool IsMain { get; }
 
     public static AnimalPhoto Create(string storagePath, bool isMain)
     {

@@ -41,13 +41,25 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             .IsRequired()
             .HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
 
-        builder.HasMany(v => v.SocialNetworks)
-            .WithOne()
-            .HasForeignKey("volunteer_id");
+        builder.OwnsOne(a => a.SocialNetworks, a =>
+        {
+            a.ToJson();
+            a.OwnsMany(e => e.Networks, d =>
+            {
+                d.Property(r => r.Name).IsRequired();
+                d.Property(r => r.Link).IsRequired();
+            });
+        });
         
-        builder.HasMany(v => v.Requisite)
-            .WithOne()
-            .HasForeignKey("volunteer_id");
+        builder.OwnsOne(a => a.RequisiteCollection, a =>
+        {
+            a.ToJson();
+            a.OwnsMany(e => e.Requisites, d =>
+            {
+                d.Property(r => r.Title).IsRequired();
+                d.Property(r => r.Description).IsRequired();
+            });
+        });
         
         builder.HasMany(v => v.Animals)
             .WithOne()
