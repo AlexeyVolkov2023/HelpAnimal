@@ -12,9 +12,6 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
         builder.ToTable("animals"); 
        
         builder.HasKey(a => a.Id);
-        
-        builder.Property(v => v.Id)
-            .ValueGeneratedOnAdd();
 
         builder.Property(a => a.Name)
             .IsRequired()
