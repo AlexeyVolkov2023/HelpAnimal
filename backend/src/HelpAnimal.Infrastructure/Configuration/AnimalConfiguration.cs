@@ -77,8 +77,8 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
             a.ToJson();
             a.OwnsMany(e => e.Requisites, d =>
             {
-                d.Property(r => r.Title).IsRequired();
-                d.Property(r => r.Description).IsRequired();
+                d.Property(r => r.Title).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                d.Property(r => r.Description).IsRequired().HasMaxLength(Constants.HIGH_TEXT_LENGTH);
             });
         });
 
