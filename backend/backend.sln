@@ -9,7 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpAnimal.Application", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpAnimal.Domain", "src\HelpAnimal.Domain\HelpAnimal.Domain.csproj", "{8B38B3E2-AC8B-41AB-86C6-463EDE517866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpAnimal.Infrastructura", "src\HelpAnimal.Infrastructura\HelpAnimal.Infrastructura.csproj", "{DDAEA16F-C0A0-422B-94A7-2C2465AD66E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelpAnimal.Infrastructure", "src\HelpAnimal.Infrastructure\HelpAnimal.Infrastructure.csproj", "{DDAEA16F-C0A0-422B-94A7-2C2465AD66E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{923284A6-D38C-4141-AFF6-39A5BF2A4BEC}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,15 +1,19 @@
 ﻿namespace HelpAnimal.Domain.Models;
 
-public class SocialNetwork
+public record SocialNetwork
 {
+    public SocialNetwork()
+    {
+        
+    }
     private SocialNetwork(string name, string link)
     {
         Name = name;
         Link = link;
     }
 
-    public string Name { get;private set; } // Название социальной сети
-    public string Link { get;private set; } // Ссылка на профиль
+   public string? Name { get; } 
+    public string? Link { get; } 
 
     public static SocialNetwork Create(string name, string link)
     {
