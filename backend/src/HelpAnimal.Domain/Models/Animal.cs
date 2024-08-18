@@ -1,16 +1,20 @@
-﻿namespace HelpAnimal.Domain.Models;
+﻿using HelpAnimal.Domain.ForAll;
 
-public class Animal
+namespace HelpAnimal.Domain.Models;
+
+public class Animal : Entity<Animalid>
 {
-    public Animal()
+    public Animal(Animalid id) : base(id)
     {
+        
     }
     
-     private Animal(string name, string species, string description,
+     private Animal(Animalid animalid, string name, string species, string description,
                      string breed, string color, string healthInfo, string address,
                      double weight, double height, string ownerContactNumber, 
                      bool isNeutered, DateTime dateOfBirth, bool isVaccinated, 
-                     HelpStatus status, RequisiteDetails requisites, AnimalPhotosDetails animalPhotos)
+                     HelpStatus status, RequisiteDetails requisites,
+                     AnimalPhotosDetails animalPhotos) : base(animalid)
     {
         Name = name;
         Species = species;
@@ -31,8 +35,6 @@ public class Animal
         AnimalPhotos = animalPhotos;
     }
 
-    
-
     public Guid Id { get; private set; }
     public string Name { get; private set; } = default!;
     public string Species { get; private set; } = default!;// Вид (собака, кошка и т.д.)
@@ -47,16 +49,16 @@ public class Animal
     public bool IsNeutered { get;private set; } // Кастрирован или нет
     public DateTime DateOfBirth { get;private set; } 
     public bool IsVaccinated { get;private set; } 
-    public HelpStatus Status { get;private set; } // Статус помощи
+    public HelpStatus? Status { get;private set; } // Статус помощи
     public DateTime CreatedAt { get; set; }
-    public AnimalPhotosDetails AnimalPhotos { get; private set; } 
-    public RequisiteDetails RequisiteCollection { get; private set; } 
+    public AnimalPhotosDetails? AnimalPhotos { get; private set; } 
+    public RequisiteDetails? RequisiteCollection { get; private set; } 
     
     
     
     
    
-        public static Animal Create(string name, string species, string description,
+        public static Animal Create(Animalid animalid,string name, string species, string description,
                                         string breed, string color, string healthInfo,
                                         string address, double weight, double height,
                                         string ownerContactNumber, bool isNeutered,
@@ -64,7 +66,7 @@ public class Animal
                                         HelpStatus status, RequisiteDetails requisites,
                                         AnimalPhotosDetails animalPhotos)
         {
-            return new Animal(name, species, description, breed, color, healthInfo,
+            return new Animal(animalid, name, species, description, breed, color, healthInfo,
                 address, weight, height, ownerContactNumber, isNeutered,
                 dateOfBirth, isVaccinated, status, requisites , animalPhotos);
         }

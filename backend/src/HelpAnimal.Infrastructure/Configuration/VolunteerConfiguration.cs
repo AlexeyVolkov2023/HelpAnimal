@@ -10,10 +10,10 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
         builder.ToTable("volunteers");
-
-        builder.HasKey(v => v.Id);
-
-        builder.Property(v => v.FullName)
+        
+       builder.HasKey(v => v.Id);
+       
+      builder.Property(v => v.FullName)
             .IsRequired()
             .HasMaxLength(Constants.MAX_VOLUNTEER_NAME_LENGTH);
 
@@ -53,8 +53,8 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
             a.ToJson();
             a.OwnsMany(e => e.Requisites, d =>
             {
-                d.Property(r => r.Title).IsRequired();
-                d.Property(r => r.Description).IsRequired();
+                d.Property(r => r.Title).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                d.Property(r => r.Description).IsRequired().HasMaxLength(Constants.HIGH_TEXT_LENGTH);
             });
         });
         
