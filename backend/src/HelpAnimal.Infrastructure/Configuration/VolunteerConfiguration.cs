@@ -7,15 +7,18 @@ namespace HelpAnimal.Infrastructura.Configuration;
 
 public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 {
+    
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
         builder.ToTable("volunteers");
         
        builder.HasKey(v => v.Id);
-       
-      builder.Property(v => v.FullName)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_VOLUNTEER_NAME_LENGTH);
+
+       builder.ComplexProperty(a => a.FullName, b =>
+       {
+          b.Property(c => c.Name).IsRequired().HasMaxLength(FullName.NAME_MAX_LENGTH);
+          b.Property(c => c.Surname).IsRequired().HasMaxLength(FullName.SURNAME_MAX_LENGTH);;
+       });
 
         builder.Property(v => v.Description)
             .IsRequired()
@@ -34,9 +37,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.Property(v => v.AnimalsInTreatmentCount)
             .IsRequired();
 
-        builder.Property(v => v.PhoneNumber)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
+        builder.ComplexProperty(a => a.Phone, b =>
+        {
+            b.IsRequired();
+            b.Property(c => c.Number).HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
+        });
 
         builder.OwnsOne(a => a.SocialNetworks, a =>
         {

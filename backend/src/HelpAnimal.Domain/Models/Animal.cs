@@ -4,17 +4,33 @@ namespace HelpAnimal.Domain.Models;
 
 public class Animal : Entity<Animalid>
 {
+    public Animal():base()
+    {
+        
+    }
     public Animal(Animalid id) : base(id)
     {
         
     }
     
-     private Animal(Animalid animalid, string name, string species, string description,
-                     string breed, string color, string healthInfo, string address,
-                     double weight, double height, string ownerContactNumber, 
-                     bool isNeutered, DateTime dateOfBirth, bool isVaccinated, 
-                     HelpStatus status, RequisiteDetails requisites,
-                     AnimalPhotosDetails animalPhotos) : base(animalid)
+     private Animal(
+         Animalid animalid,
+         string name,
+         string species,
+         string description,
+         string breed, 
+         string color,
+         string healthInfo, 
+         AddressDetails addresses,
+         double weight,
+         double height, 
+         PhoneNumber phone, 
+         bool isNeutered, 
+         DateTime dateOfBirth,
+         VaccinationDetails alreadyVaccinated,
+         HelpStatus status, 
+         RequisiteDetails requisites,
+         AnimalPhotosDetails animalPhotos) : base(animalid)
     {
         Name = name;
         Species = species;
@@ -22,13 +38,13 @@ public class Animal : Entity<Animalid>
         Breed = breed;
         Color = color;
         HealthInfo = healthInfo;
-        Address = address;
+        AnimalAddresses = addresses;
         Weight = weight;
         Height = height;
-        OwnerContactNumber = ownerContactNumber;
+        Phone = phone;
         IsNeutered = isNeutered;
         DateOfBirth = dateOfBirth;
-        IsVaccinated = isVaccinated;
+        AlreadyVaccinated = alreadyVaccinated;
         Status = status;
         CreatedAt = DateTime.Now;
         RequisiteCollection = requisites;
@@ -42,13 +58,13 @@ public class Animal : Entity<Animalid>
     public string Breed { get;private set; } = default!;// Порода
     public string Color { get;private set; } = default!;
     public string HealthInfo { get;private set; } = default!;
-    public string Address { get;private set; } = default!;
+    public AddressDetails AnimalAddresses { get;private set; } = default!;
     public double Weight { get;private set; } 
     public double Height { get;private set; } 
-    public string OwnerContactNumber { get;private set; } = default!;// Номер телефона для связи с владельцем
+    public PhoneNumber Phone { get;private set; } // Номер телефона для связи с владельцем
     public bool IsNeutered { get;private set; } // Кастрирован или нет
     public DateTime DateOfBirth { get;private set; } 
-    public bool IsVaccinated { get;private set; } 
+    public VaccinationDetails AlreadyVaccinated { get;private set; } 
     public HelpStatus? Status { get;private set; } // Статус помощи
     public DateTime CreatedAt { get; set; }
     public AnimalPhotosDetails? AnimalPhotos { get; private set; } 
@@ -58,16 +74,42 @@ public class Animal : Entity<Animalid>
     
     
    
-        public static Animal Create(Animalid animalid,string name, string species, string description,
-                                        string breed, string color, string healthInfo,
-                                        string address, double weight, double height,
-                                        string ownerContactNumber, bool isNeutered,
-                                        DateTime dateOfBirth, bool isVaccinated,
-                                        HelpStatus status, RequisiteDetails requisites,
-                                        AnimalPhotosDetails animalPhotos)
+        public static Animal Create(
+            Animalid animalid,
+            string name, 
+            string species,
+            string description,
+            string breed, 
+            string color, 
+            string healthInfo,
+            AddressDetails addresses, 
+            double weight,
+            double height,
+            PhoneNumber phone, 
+            bool isNeutered,
+            DateTime dateOfBirth, 
+            VaccinationDetails alreadyVaccinated,
+            HelpStatus status, 
+            RequisiteDetails requisites,
+            AnimalPhotosDetails animalPhotos)
         {
-            return new Animal(animalid, name, species, description, breed, color, healthInfo,
-                address, weight, height, ownerContactNumber, isNeutered,
-                dateOfBirth, isVaccinated, status, requisites , animalPhotos);
+            return new Animal(
+                animalid, 
+                name, 
+                species,
+                description,
+                breed, 
+                color,
+                healthInfo,
+                addresses,
+                weight,
+                height,
+                phone,
+                isNeutered,
+                dateOfBirth, 
+                alreadyVaccinated,
+                status,
+                requisites ,
+                animalPhotos);
         }
     }
