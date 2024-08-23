@@ -1,11 +1,9 @@
-﻿namespace HelpAnimal.Domain.Models;
+﻿using HelpAnimal.Domain.ForAll;
+
+namespace HelpAnimal.Domain.Models;
 
 public record AnimalPhoto
 {
-    public AnimalPhoto()
-    {
-        
-    }
     private AnimalPhoto(string storagePath, bool isMain)
     {
         StoragePath = storagePath;
@@ -15,8 +13,14 @@ public record AnimalPhoto
     public string StoragePath { get; } = default!;
     public bool IsMain { get; }
 
-    public static AnimalPhoto Create(string storagePath, bool isMain)
+    public static Result<AnimalPhoto> Create(string storagePath, bool isMain)
     {
+        if (string.IsNullOrWhiteSpace(storagePath))
+        {
+            return "Storage path cannot be empty or whitespace.";
+        }
+
         return new AnimalPhoto(storagePath, isMain);
+       
     }
 }

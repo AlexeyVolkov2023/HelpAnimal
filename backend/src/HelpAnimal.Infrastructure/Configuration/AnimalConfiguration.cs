@@ -43,10 +43,18 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
             b.ToJson();
             b.OwnsMany(c => c.Addresses, c =>
             {
-                c.Property(d => d.Country).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                c.Property(d => d.City).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                c.Property(d => d.Street).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                c.Property(d => d.NumberHome).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                c.Property(d => d.Country)
+                    .IsRequired()
+                    .HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                c.Property(d => d.City)
+                    .IsRequired()
+                    .HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                c.Property(d => d.Street)
+                    .IsRequired()
+                    .HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                c.Property(d => d.NumberHome)
+                    .IsRequired()
+                    .HasMaxLength(Constants.LOW_TEXT_LENGTH);
             });
         });
 
@@ -59,7 +67,8 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
         builder.ComplexProperty(a => a.Phone, b =>
         {
             b.IsRequired();
-            b.Property(p =>p.Number).HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
+            b.Property(p =>p.Number)
+                .HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
         });
     
 
@@ -71,38 +80,48 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
 
         builder.OwnsOne(a => a.AlreadyVaccinated, v =>
         {
-            v.ToJson();
+            v.ToJson("already_vaccination");
             v.OwnsMany(v => v.Vaccinations, b =>
             {
-                b.Property(d => d.NameVaccine).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                b.Property(d => d.DateVaccination).IsRequired();
+                b.Property(d => d.NameVaccine)
+                    .IsRequired()
+                    .HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                b.Property(d => d.DateVaccination)
+                    .IsRequired();
             });
         });
 
         builder.ComplexProperty(a => a.Status, b =>
         {
             b.IsRequired();
-            b.Property(c => c.Value).IsRequired();
+            b.Property(c => c.Value)
+                .IsRequired();
         });
             
 
         builder.OwnsOne(a => a.AnimalPhotos, a =>
         {
-            a.ToJson();
+            a.ToJson("animal_photos");
                 a.OwnsMany(e => e.Photos, d =>
             {
-                d.Property(r => r.StoragePath).IsRequired();
-                d.Property(r => r.IsMain).IsRequired();
+                d.Property(r => r.StoragePath)
+                    .IsRequired();
+                d.Property(r => r.IsMain)
+                    .IsRequired();
             });
         });
 
         builder.OwnsOne(a => a.RequisiteCollection, a =>
         {
-            a.ToJson();
+            a.ToJson("requisite_collection");
             a.OwnsMany(e => e.Requisites, d =>
             {
-                d.Property(r => r.Title).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                d.Property(r => r.Description).IsRequired().HasMaxLength(Constants.HIGH_TEXT_LENGTH);
+                d.Property(r => r.Title)
+                    .IsRequired()
+                    .HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                d.Property(r => r.Description)
+                    .IsRequired()
+                    .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
             });
         });
 

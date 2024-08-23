@@ -3,16 +3,11 @@
 namespace HelpAnimal.Domain.Models;
 public class Volunteer : Entity<Volunteerid>
 {
-    public Volunteer():base()
+    private Volunteer(Volunteerid volunteerid):base(volunteerid)
     {
         
     }
-    private  Volunteer(Volunteerid volunteerid) : base(volunteerid)
-    {
-       
-        
-    }
-
+    
     private Volunteer(
         Volunteerid volunteerid,
         FullName name, 
@@ -50,7 +45,7 @@ public class Volunteer : Entity<Volunteerid>
     public RequisiteDetails? RequisiteCollection { get;private set; } 
     public List<Animal>? Animals { get;private set; }  = [];// Список домашних животных
 
-    public static Volunteer Create(
+    public static Result<Volunteer> Create(
         Volunteerid volunteerid, 
         FullName name,
         string description, 
@@ -63,6 +58,27 @@ public class Volunteer : Entity<Volunteerid>
         RequisiteDetails requisite,
         List<Animal> animals)
     {
+        if (string.IsNullOrWhiteSpace(description) || description.Length > Constants.HIGH_TEXT_LENGTH)
+        {
+            return $"Description cannot be empty or separated by a space or be more than {Constants.HIGH_TEXT_LENGTH}";
+        }
+        if (experienceYears is > Constants.MAX_EXPERIENCE_YEARS or < 0)
+        {
+            return $"ExperienceYears could not be more {Constants.MAX_EXPERIENCE_YEARS}";
+        } 
+        if (adoptedAnimalsCount < 0)
+        {
+            return "AdoptedAnimalsCount must be greater than 0.";
+        } 
+        if (currentAnimalsCount < 0)
+        {
+            return "CurrentAnimalsCount must be greater than 0.";
+        } 
+        if (animalsInTreatmentCount < 0)
+        {
+            return "AnimalsInTreatmentCount must be greater than 0.";
+        }
+        
         return new Volunteer(
             volunteerid,
             name, 

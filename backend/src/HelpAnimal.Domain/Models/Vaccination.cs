@@ -1,12 +1,10 @@
-﻿namespace HelpAnimal.Domain.Models;
+﻿using HelpAnimal.Domain.ForAll;
+
+namespace HelpAnimal.Domain.Models;
 
 public record Vaccination
 {
-    public Vaccination()
-    {
-    }
-
-    private Vaccination(
+   private Vaccination(
         string nameVaccine,
         DateTime dateVaccination)
     {
@@ -17,12 +15,17 @@ public record Vaccination
     public string NameVaccine { get; }
     public DateTime DateVaccination { get;  }
 
-    public static Vaccination Create(
-        string nameVaccine,
-        DateTime dateVaccination)
+    public static Result<Vaccination> Create(string nameVaccine, DateTime dateVaccination)
     {
-        return new Vaccination(
-            nameVaccine, 
-            dateVaccination);
+        if (string.IsNullOrWhiteSpace(nameVaccine))
+        {
+            return "Name of vaccine cannot be empty or whitespace.";
+        }
+        if (dateVaccination > DateTime.Now)
+        {
+            return "Vaccination date cannot be in the future.";
+        }
+
+        return new Vaccination(nameVaccine, dateVaccination);
     }
 }

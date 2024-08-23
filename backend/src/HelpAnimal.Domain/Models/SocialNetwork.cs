@@ -1,22 +1,35 @@
-﻿namespace HelpAnimal.Domain.Models;
+﻿using HelpAnimal.Domain.ForAll;
+
+namespace HelpAnimal.Domain.Models;
 
 public record SocialNetwork
 {
-    public SocialNetwork()
+    private SocialNetwork(string title, string link)
     {
-        
-    }
-    private SocialNetwork(string name, string link)
-    {
-        Name = name;
+        Title = title;
         Link = link;
     }
 
-   public string? Name { get; } 
-    public string? Link { get; } 
+    public string? Title { get; }
+    public string? Link { get; }
 
-    public static SocialNetwork Create(string name, string link)
+    public static Result<SocialNetwork> Create(string title, string link)
     {
-        return new SocialNetwork(name, link);
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            return "Title cannot be empty or whitespace.";
+        }
+
+        if (string.IsNullOrWhiteSpace(link))
+        {
+            throw new ArgumentException("Link cannot be empty or whitespace.", nameof(link));
+        }
+      
+        if (!Uri.TryCreate(link, UriKind.Absolute, out _))
+        {
+            throw new ArgumentException("Invalid URL format.", nameof(link));
+        }
+
+        return new SocialNetwork(title, link);
     }
 }

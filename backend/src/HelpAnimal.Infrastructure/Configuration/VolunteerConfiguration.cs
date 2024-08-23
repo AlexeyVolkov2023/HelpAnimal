@@ -16,8 +16,12 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 
        builder.ComplexProperty(a => a.FullName, b =>
        {
-          b.Property(c => c.Name).IsRequired().HasMaxLength(FullName.NAME_MAX_LENGTH);
-          b.Property(c => c.Surname).IsRequired().HasMaxLength(FullName.SURNAME_MAX_LENGTH);;
+          b.Property(c => c.Name)
+              .IsRequired()
+              .HasMaxLength(Constants.NAME_MAX_LENGTH);
+          b.Property(c => c.Surname)
+              .IsRequired()
+              .HasMaxLength(FullName.SURNAME_MAX_LENGTH);;
        });
 
         builder.Property(v => v.Description)
@@ -40,26 +44,33 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.ComplexProperty(a => a.Phone, b =>
         {
             b.IsRequired();
-            b.Property(c => c.Number).HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
+            b.Property(c => c.Number)
+                .HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
         });
 
         builder.OwnsOne(a => a.SocialNetworks, a =>
         {
-            a.ToJson();
+            a.ToJson("social_networks");
             a.OwnsMany(e => e.Networks, d =>
             {
-                d.Property(r => r.Name).IsRequired();
-                d.Property(r => r.Link).IsRequired();
+                d.Property(r => r.Title)
+                    .IsRequired();
+                d.Property(r => r.Link)
+                    .IsRequired();
             });
         });
         
         builder.OwnsOne(a => a.RequisiteCollection, a =>
         {
-            a.ToJson();
+            a.ToJson("requisite_collection");
             a.OwnsMany(e => e.Requisites, d =>
             {
-                d.Property(r => r.Title).IsRequired().HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                d.Property(r => r.Description).IsRequired().HasMaxLength(Constants.HIGH_TEXT_LENGTH);
+                d.Property(r => r.Title)
+                    .IsRequired()
+                    .HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                d.Property(r => r.Description)
+                    .IsRequired()
+                    .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
             });
         });
         

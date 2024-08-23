@@ -1,4 +1,6 @@
-﻿namespace HelpAnimal.Domain.Models;
+﻿using HelpAnimal.Domain.ForAll;
+
+namespace HelpAnimal.Domain.Models;
 
 public record HelpStatus
 {
@@ -9,20 +11,23 @@ public record HelpStatus
     private static readonly HelpStatus[] _all = [NeedsHelp, LookingForHome, FoundHome];
     public string? Value { get; }
 
-    public HelpStatus()
-    {
-        
-    }
-
     private HelpStatus(string value) 
     {
         Value = value;
     }
 
-    public static HelpStatus Create(string input)
+    public static Result<HelpStatus> Create(string input)
     {
-        var helpStatus = input.Trim().ToLower();
+        var check = input.Trim().ToLower();
+        
+        if (!_all.Any(s => s.Value == check))
+        {
+            return $"Invalid HelpStatus value: {check}." +
+                    $" Valid values are: {string.Join(", ", _all.Select(s => s.Value))}";
+        }
 
-        return new HelpStatus(helpStatus);
+        return new HelpStatus(check);
+
+        
     }
 }
