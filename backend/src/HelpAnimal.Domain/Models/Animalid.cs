@@ -1,5 +1,7 @@
 ﻿
 
+using HelpAnimal.Domain.ForAll;
+
 namespace HelpAnimal.Domain.Models;
 
 public record Animalid 

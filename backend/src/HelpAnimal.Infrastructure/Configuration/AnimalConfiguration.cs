@@ -13,6 +13,11 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
 
         builder.HasKey(a => a.Id);
 
+        builder.Property(a => a.Id)
+            .HasConversion(
+                id => id.Value,
+                value => Animalid.Create(value));
+
         builder.Property(a => a.Name)
             .IsRequired()
             .HasMaxLength(Constants.MAX_ANIMAL_NAME_LENGTH);
@@ -36,27 +41,24 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
         builder.Property(a => a.HealthInfo)
             .IsRequired()
             .HasMaxLength(Constants.MEDIUM_TEXT_LENGTH);
-        ;
 
-        builder.OwnsOne(a => a.AnimalAddresses, b =>
-        {
-            b.ToJson();
-            b.OwnsMany(c => c.Addresses, c =>
+
+        builder.ComplexProperty(a => a.AnimalAddress, aa =>
             {
-                c.Property(d => d.Country)
+                aa.Property(b => b.Country)
                     .IsRequired()
                     .HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                c.Property(d => d.City)
+                aa.Property(d => d.City)
                     .IsRequired()
                     .HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                c.Property(d => d.Street)
+                aa.Property(d => d.Street)
                     .IsRequired()
                     .HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                c.Property(d => d.NumberHome)
+                aa.Property(d => d.NumberHome)
                     .IsRequired()
                     .HasMaxLength(Constants.LOW_TEXT_LENGTH);
-            });
-        });
+            }
+        );
 
         builder.Property(a => a.Weight)
             .IsRequired();

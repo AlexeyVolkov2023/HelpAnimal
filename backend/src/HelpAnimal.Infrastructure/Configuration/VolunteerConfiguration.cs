@@ -13,6 +13,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.ToTable("volunteers");
         
        builder.HasKey(v => v.Id);
+       
+       builder.Property(a => a.Id)
+           .HasConversion(
+               id => id.Value,
+               value => Volunteerid.Create(value));
 
        builder.ComplexProperty(a => a.FullName, b =>
        {
@@ -21,7 +26,11 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
               .HasMaxLength(Constants.NAME_MAX_LENGTH);
           b.Property(c => c.Surname)
               .IsRequired()
-              .HasMaxLength(FullName.SURNAME_MAX_LENGTH);;
+              .HasMaxLength(FullName.SURNAME_MAX_LENGTH);
+          b.Property(c => c.Patronymic)
+              .IsRequired()
+              .HasMaxLength(FullName.PATRONYMIC_MAX_LENGTH);
+          
        });
 
         builder.Property(v => v.Description)
