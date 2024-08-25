@@ -13,30 +13,42 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
 
         builder.HasKey(a => a.Id);
 
+        builder.Property(a => a.Id)
+            .HasConversion(
+                id => id.Value,
+                value => Animalid.Create(value));
+
         builder.Property(a => a.Name)
             .IsRequired()
             .HasMaxLength(Constants.MAX_ANIMAL_NAME_LENGTH);
 
-        builder.Property(a => a.Species)
-            .IsRequired();
+        builder.OwnsOne(c => c.Identifier, b =>
+        {
+            b.ToJson("animal_identifier");
+            b.OwnsOne(c => c.IdSpecies, si =>
+            {
+                si.ToJson("species_value");
+                si.Property(d => d.Value)
+                    .IsRequired();
+            });
+            b.Property(d => d.IdBreed)
+                .IsRequired();
+        });
+
 
         builder.Property(a => a.Description)
             .IsRequired()
             .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
-        ;
 
-        builder.Property(a => a.Breed)
-            .IsRequired();
-        ;
 
         builder.Property(a => a.Color)
             .IsRequired();
-        ;
+
 
         builder.Property(a => a.HealthInfo)
             .IsRequired()
             .HasMaxLength(Constants.MEDIUM_TEXT_LENGTH);
-        ;
+
 
         builder.OwnsOne(a => a.AnimalAddresses, b =>
         {
@@ -67,10 +79,10 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
         builder.ComplexProperty(a => a.Phone, b =>
         {
             b.IsRequired();
-            b.Property(p =>p.Number)
+            b.Property(p => p.Number)
                 .HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
         });
-    
+
 
         builder.Property(a => a.IsNeutered)
             .IsRequired();
@@ -81,7 +93,7 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
         builder.OwnsOne(a => a.AlreadyVaccinated, v =>
         {
             v.ToJson("already_vaccination");
-            v.OwnsMany(v => v.Vaccinations, b =>
+            v.OwnsMany(a => a.Vaccinations, b =>
             {
                 b.Property(d => d.NameVaccine)
                     .IsRequired()
@@ -97,12 +109,12 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
             b.Property(c => c.Value)
                 .IsRequired();
         });
-            
+
 
         builder.OwnsOne(a => a.AnimalPhotos, a =>
         {
             a.ToJson("animal_photos");
-                a.OwnsMany(e => e.Photos, d =>
+            a.OwnsMany(e => e.Photos, d =>
             {
                 d.Property(r => r.StoragePath)
                     .IsRequired();
@@ -124,8 +136,5 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
                     .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
             });
         });
-
-
     }
-    
 }

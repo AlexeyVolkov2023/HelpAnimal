@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HelpAnimal.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HelpAnimal.Infrastructura.Migrations
 {
     [DbContext(typeof(HelpAnimalDbContext))]
-    partial class HelpAnimalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240823180108_CreateResult")]
+    partial class CreateResult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +31,11 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<string>("Breed")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("breed");
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -68,6 +76,11 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasColumnType("character varying(10)")
                         .HasColumnName("name");
 
+                    b.Property<string>("Species")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("species");
+
                     b.Property<double>("Weight")
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
@@ -104,49 +117,6 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasDatabaseName("ix_animals_volunteer_id");
 
                     b.ToTable("animals", (string)null);
-                });
-
-            modelBuilder.Entity("HelpAnimal.Domain.Models.Breed", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("title");
-
-                    b.Property<Guid?>("breed_id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("breed_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_breeds");
-
-                    b.HasIndex("breed_id")
-                        .HasDatabaseName("ix_breeds_breed_id");
-
-                    b.ToTable("Breeds", (string)null);
-                });
-
-            modelBuilder.Entity("HelpAnimal.Domain.Models.Species", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_species");
-
-                    b.ToTable("Species", (string)null);
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.Models.Volunteer", b =>
@@ -370,47 +340,6 @@ namespace HelpAnimal.Infrastructura.Migrations
                             b1.Navigation("Photos");
                         });
 
-                    b.OwnsOne("HelpAnimal.Domain.Models.PetIdentifier", "Identifier", b1 =>
-                        {
-                            b1.Property<Guid>("AnimalId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<Guid>("IdBreed")
-                                .HasColumnType("uuid");
-
-                            b1.HasKey("AnimalId");
-
-                            b1.ToTable("animals");
-
-                            b1.ToJson("animal_identifier");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AnimalId")
-                                .HasConstraintName("fk_animals_animals_id");
-
-                            b1.OwnsOne("HelpAnimal.Domain.Models.Speciesid", "IdSpecies", b2 =>
-                                {
-                                    b2.Property<Guid>("PetIdentifierAnimalId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<Guid>("Value")
-                                        .HasColumnType("uuid");
-
-                                    b2.HasKey("PetIdentifierAnimalId");
-
-                                    b2.ToTable("animals");
-
-                                    b2.ToJson("species_value");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("PetIdentifierAnimalId")
-                                        .HasConstraintName("fk_animals_animals_pet_identifier_animal_id");
-                                });
-
-                            b1.Navigation("IdSpecies")
-                                .IsRequired();
-                        });
-
                     b.OwnsOne("HelpAnimal.Domain.Models.VaccinationDetails", "AlreadyVaccinated", b1 =>
                         {
                             b1.Property<Guid>("AnimalId")
@@ -465,18 +394,7 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                     b.Navigation("AnimalPhotos");
 
-                    b.Navigation("Identifier")
-                        .IsRequired();
-
                     b.Navigation("RequisiteCollection");
-                });
-
-            modelBuilder.Entity("HelpAnimal.Domain.Models.Breed", b =>
-                {
-                    b.HasOne("HelpAnimal.Domain.Models.Species", null)
-                        .WithMany("Breeds")
-                        .HasForeignKey("breed_id")
-                        .HasConstraintName("fk_breeds_species_breed_id");
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.Models.Volunteer", b =>
@@ -578,11 +496,6 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.Navigation("RequisiteCollection");
 
                     b.Navigation("SocialNetworks");
-                });
-
-            modelBuilder.Entity("HelpAnimal.Domain.Models.Species", b =>
-                {
-                    b.Navigation("Breeds");
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.Models.Volunteer", b =>
