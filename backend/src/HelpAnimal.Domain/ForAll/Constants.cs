@@ -11,11 +11,10 @@ public class Constants
     public const int MEDIUM_TEXT_LENGTH = 500;
 
     public const int MAX_PHONENUMBER_LENGTH = 15;
-    
+
     public const int MAX_VOLUNTEER_NAME_LENGTH = 30;
 
-   public const int NAME_MAX_LENGTH = 15;
+    public const int NAME_MAX_LENGTH = 15;
 
     public const int MAX_EXPERIENCE_YEARS = 60;
-
 }

@@ -14,4 +14,6 @@ public record Volunteerid
     public static Volunteerid Empty() => new(Guid.Empty);
 
     public static Volunteerid Create(Guid id) => new(id);
+
+    //public static implicit operator Volunteerid(Guid id) => new Volunteerid(id);
 }

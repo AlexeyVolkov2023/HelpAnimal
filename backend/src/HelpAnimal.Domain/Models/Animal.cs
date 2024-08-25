@@ -17,7 +17,7 @@ public class Animal : Entity<Animalid>
         string breed,
         string color,
         string healthInfo,
-        AddressDetails addresses,
+        Address address,
         double weight,
         double height,
         PhoneNumber phone,
@@ -34,7 +34,7 @@ public class Animal : Entity<Animalid>
         Breed = breed;
         Color = color;
         HealthInfo = healthInfo;
-        AnimalAddresses = addresses;
+        AnimalAddress = address;
         Weight = weight;
         Height = height;
         Phone = phone;
@@ -47,14 +47,13 @@ public class Animal : Entity<Animalid>
         AnimalPhotos = animalPhotos;
     }
 
-    public Guid Id { get; private set; }
     public string Name { get; private set; } = default!;
     public string Species { get; private set; } = default!; // Вид (собака, кошка и т.д.)
     public string Description { get; private set; } = default!;
     public string Breed { get; private set; } = default!; // Порода
     public string Color { get; private set; } = default!;
     public string HealthInfo { get; private set; } = default!;
-    public AddressDetails AnimalAddresses { get; private set; } = default!;
+    public Address AnimalAddress { get; private set; } = default!;
     public double Weight { get; private set; }
     public double Height { get; private set; }
     public PhoneNumber Phone { get; private set; } // Номер телефона для связи с владельцем
@@ -75,7 +74,7 @@ public class Animal : Entity<Animalid>
         string breed,
         string color,
         string healthInfo,
-        AddressDetails addresses,
+        Address address,
         double weight,
         double height,
         PhoneNumber phone,
@@ -90,37 +89,45 @@ public class Animal : Entity<Animalid>
         {
             return $"Name cannot be empty or separated by a space or be more than {Constants.NAME_MAX_LENGTH}";
         }
+
         if (string.IsNullOrWhiteSpace(species))
         {
             return "Species cannot be empty or whitespace.";
         }
+
         if (string.IsNullOrWhiteSpace(description) || description.Length > Constants.HIGH_TEXT_LENGTH)
         {
             return $"Description cannot be empty or separated by a space or be more than {Constants.HIGH_TEXT_LENGTH}";
         }
+
         if (string.IsNullOrWhiteSpace(breed))
         {
             return "Breed cannot be empty or whitespace.";
         }
+
         if (string.IsNullOrWhiteSpace(color))
         {
             return "Color cannot be empty or whitespace.";
         }
+
         if (string.IsNullOrWhiteSpace(healthInfo) || healthInfo.Length > Constants.MEDIUM_TEXT_LENGTH)
         {
             return $"HealthInfo cannot be empty or separated by a space or be more than {Constants.HIGH_TEXT_LENGTH}";
         }
+
         if (weight <= 0)
         {
             return "Weight must be greater than 0.";
         }
+
         if (height <= 0)
         {
-            return"Height must be greater than 0.";
+            return "Height must be greater than 0.";
         }
+
         if (dateOfBirth > DateTime.Now)
         {
-            return"Date of birth cannot be in the future.";
+            return "Date of birth cannot be in the future.";
         }
 
 
@@ -132,7 +139,7 @@ public class Animal : Entity<Animalid>
             breed,
             color,
             healthInfo,
-            addresses,
+            address,
             weight,
             height,
             phone,

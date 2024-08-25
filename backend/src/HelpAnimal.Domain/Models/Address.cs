@@ -6,10 +6,10 @@ namespace HelpAnimal.Domain.Models;
 public record Address
 {
     private Address(
-        string country,
-        string city,
-        string street,
-        int numberHome)
+                string country,
+                string city,
+                string street,
+                int numberHome)
     {
         Country = country;
         City = city;
@@ -24,20 +24,20 @@ public record Address
 
 
     public static Result<Address> Create(
-        string country,
-        string city,
-        string street,
-        int numberHome)
+                                        string country,
+                                        string city,
+                                        string street,
+                                        int numberHome)
     {
         if (string.IsNullOrWhiteSpace(country))
            return "Country cannot be null or empty.";
-
+        
         if (string.IsNullOrWhiteSpace(city))
             return"City cannot be null or empty.";
-
+        
         if (string.IsNullOrWhiteSpace(street))
             return "Street cannot be null or empty.";
-
+        
         if (numberHome <= 0)
             return "NumberHome must be a positive integer.";
 
