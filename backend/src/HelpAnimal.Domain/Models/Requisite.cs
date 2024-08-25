@@ -1,24 +1,31 @@
 ﻿namespace HelpAnimal.Domain.Models;
+using HelpAnimal.Domain.ForAll;
 
 public record Requisite
 {
-    public Requisite()
-    {
-        
-    }
-    private Requisite(string title, string description)
+   private Requisite(string title, string description)
     {
         Title = title;
         Description = description;
     }
 
-    public string Title { get;  } = default!; // Название реквизита
-    public string Description { get;  } = default!;// Описание, как сделать перевод
+    public string Title { get;  } 
+    public string Description { get;  } 
     
    
-    public static Requisite Create (string requisite, string description)
+    public static Result<Requisite> Create (string title, string description)
     {
-        return new Requisite(requisite, description);
+         if (string.IsNullOrWhiteSpace(title))
+        {
+            return "Title cannot be empty or whitespace.";
+        }
+
+        if (string.IsNullOrWhiteSpace(description))
+        {
+            return "Description cannot be empty or whitespace.";
+        }
+
+        return new Requisite(title, description);
 
     }
 }
