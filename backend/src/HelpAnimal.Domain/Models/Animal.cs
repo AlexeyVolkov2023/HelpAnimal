@@ -12,9 +12,8 @@ public class Animal : Entity<Animalid>
     private Animal(
         Animalid animalid,
         string name,
-        string species,
         string description,
-        string breed,
+        IdentifierAnimal identifier,
         string color,
         string healthInfo,
         Address address,
@@ -29,9 +28,8 @@ public class Animal : Entity<Animalid>
         AnimalPhotosDetails animalPhotos) : base(animalid)
     {
         Name = name;
-        Species = species;
         Description = description;
-        Breed = breed;
+        Identifier = identifier;
         Color = color;
         HealthInfo = healthInfo;
         AnimalAddress = address;
@@ -48,9 +46,8 @@ public class Animal : Entity<Animalid>
     }
 
     public string Name { get; private set; } = default!;
-    public string Species { get; private set; } = default!; // Вид (собака, кошка и т.д.)
     public string Description { get; private set; } = default!;
-    public string Breed { get; private set; } = default!; // Порода
+    public IdentifierAnimal Identifier { get; private set; }
     public string Color { get; private set; } = default!;
     public string HealthInfo { get; private set; } = default!;
     public Address AnimalAddress { get; private set; } = default!;
@@ -69,9 +66,8 @@ public class Animal : Entity<Animalid>
     public static Result<Animal> Create(
         Animalid animalid,
         string name,
-        string species,
         string description,
-        string breed,
+        IdentifierAnimal identifier,
         string color,
         string healthInfo,
         Address address,
@@ -90,19 +86,9 @@ public class Animal : Entity<Animalid>
             return $"Name cannot be empty or separated by a space or be more than {Constants.NAME_MAX_LENGTH}";
         }
 
-        if (string.IsNullOrWhiteSpace(species))
-        {
-            return "Species cannot be empty or whitespace.";
-        }
-
         if (string.IsNullOrWhiteSpace(description) || description.Length > Constants.HIGH_TEXT_LENGTH)
         {
             return $"Description cannot be empty or separated by a space or be more than {Constants.HIGH_TEXT_LENGTH}";
-        }
-
-        if (string.IsNullOrWhiteSpace(breed))
-        {
-            return "Breed cannot be empty or whitespace.";
         }
 
         if (string.IsNullOrWhiteSpace(color))
@@ -134,9 +120,8 @@ public class Animal : Entity<Animalid>
         return new Animal(
             animalid,
             name,
-            species,
             description,
-            breed,
+            identifier,
             color,
             healthInfo,
             address,
