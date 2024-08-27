@@ -9,14 +9,14 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
 {
     public void Configure(EntityTypeBuilder<Breed> builder)
     {
-        builder.ToTable("Breeds");
+        builder.ToTable("breeds");
 
         builder.HasKey(b => b.Id);
         
         builder.Property(a => a.Id)
             .HasConversion(
                 id => id.Value,
-                value => Breedid.Create(value));
+                value => BreedId.Create(value));
 
         builder.Property(b => b.Title)
             .IsRequired()

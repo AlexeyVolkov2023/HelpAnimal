@@ -9,12 +9,14 @@ public record HelpStatus
     private static readonly HelpStatus FoundHome = new(nameof(FoundHome));
 
     private static readonly HelpStatus[] _all = [NeedsHelp, LookingForHome, FoundHome];
-    public string? Value { get; }
+   
 
     private HelpStatus(string value) 
     {
         Value = value;
     }
+    
+    public string? Value { get; }
 
     public static Result<HelpStatus> Create(string input)
     {

@@ -17,7 +17,6 @@ public record FullName
 
     public string Name { get; }
     public string Surname { get; }
-    
     public string Patronymic { get; }
 
     public static  Result<FullName> Create(string name, string surname, string patronymic)

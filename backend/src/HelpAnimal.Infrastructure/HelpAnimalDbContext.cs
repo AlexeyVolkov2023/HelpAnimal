@@ -11,8 +11,6 @@ public class HelpAnimalDbContext(IConfiguration configuration) : DbContext
 {
     private const string ALEX = "Alex";
 
-
-    public DbSet<Animal> Animals { get; set; }
     public DbSet<Volunteer> Volunteers { get; set; }
     public DbSet<Species> Specieses { get; set; }
 

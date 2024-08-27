@@ -16,7 +16,7 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
         builder.Property(a => a.Id)
             .HasConversion(
                 id => id.Value,
-                value => Animalid.Create(value));
+                value => AnimalId.Create(value));
 
         builder.Property(a => a.Name)
             .IsRequired()
@@ -26,11 +26,15 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
             .IsRequired()
             .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
 
-        builder.ComplexProperty(a => a.Identifier, ai =>
+        builder.OwnsOne(a => a.Identifier, ai =>
         {
-            ai.ComplexProperty(b => b.SpeciesId, c => { c.Property(d => d.Value); });
-            ai.Property(d => d.BreedId);
+            ai.ToJson();
+            ai.OwnsOne(b => b.SpeciesIdentifier, c => 
+                { c.Property(d => d.Value); });
+            ai.Property(d => d.BreedGuid);
         });
+        
+      
 
         builder.Property(a => a.Color)
             .IsRequired();
@@ -40,14 +44,14 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
             .HasMaxLength(Constants.MEDIUM_TEXT_LENGTH);
 
 
-        builder.ComplexProperty(a => a.AnimalAddress, aa =>
+        builder.OwnsOne(a => a.AnimalAddress, aa =>
         {
             aa.Property(b => b.Country)
                 .IsRequired()
                 .HasMaxLength(Constants.LOW_TEXT_LENGTH);
             aa.Property(d => d.City)
                 .IsRequired()
-                .HasMaxLength(Constants.LOW_TEXT_LENGTH);
+                .HasMaxLength(Constants.LOW_TEXT_LENGTH);    
             aa.Property(d => d.Street)
                 .IsRequired()
                 .HasMaxLength(Constants.LOW_TEXT_LENGTH);

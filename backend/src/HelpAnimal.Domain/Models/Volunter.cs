@@ -2,14 +2,14 @@
 
 namespace HelpAnimal.Domain.Models;
 
-public class Volunteer : Entity<Volunteerid>
+public class Volunteer : Entity<VolunteerId>
 {
-    private Volunteer(Volunteerid id) : base(id)
+    private Volunteer(VolunteerId id) : base(id)
     {
     }
 
     private Volunteer(
-        Volunteerid volunteerid,
+        VolunteerId id,
         FullName name,
         string description,
         int experienceYears,
@@ -19,7 +19,7 @@ public class Volunteer : Entity<Volunteerid>
         PhoneNumber phone,
         SocialDetails socialNetwork,
         RequisiteDetails requisite,
-        List<Animal> animals) : base(volunteerid)
+        List<Animal> animals) : base(id)
     {
         FullName = name;
         Description = description;
@@ -35,17 +35,17 @@ public class Volunteer : Entity<Volunteerid>
 
     public FullName FullName { get; private set; } = default!;
     public string Description { get; private set; } = default!;
-    public int ExperienceYears { get; private set; } // Опыт в годах
-    public int AdoptedAnimalsCount { get; private set; } // Количество домашних животных, которые нашли дом
-    public int CurrentAnimalsCount { get; private set; } // Количество домашних животных, которые ищут дом
-    public int AnimalsInTreatmentCount { get; private set; } // Количество животных на лечении
-    public PhoneNumber Phone { get; private set; }
+    public int ExperienceYears { get; private set; }
+    public int AdoptedAnimalsCount { get; private set; }
+    public int CurrentAnimalsCount { get; private set; }
+    public int AnimalsInTreatmentCount { get; private set; }
+    public PhoneNumber? Phone { get; private set; }
     public SocialDetails? SocialNetworks { get; private set; }
     public RequisiteDetails? RequisiteCollection { get; private set; }
-    public List<Animal>? Animals { get; private set; } = []; // Список домашних животных
+    public List<Animal>? Animals { get; private set; }
 
     public static Result<Volunteer> Create(
-        Volunteerid volunteerid,
+        VolunteerId id,
         FullName name,
         string description,
         int experienceYears,
@@ -83,7 +83,7 @@ public class Volunteer : Entity<Volunteerid>
         }
 
         return new Volunteer(
-            volunteerid,
+            id,
             name,
             description,
             experienceYears,

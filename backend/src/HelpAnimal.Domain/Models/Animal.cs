@@ -2,15 +2,15 @@
 
 namespace HelpAnimal.Domain.Models;
 
-public class Animal : Entity<Animalid>
+public class Animal : Entity<AnimalId>
 {
-    private Animal(Animalid id) : base(id)
+    private Animal(AnimalId id) : base(id)
     {
     }
 
 
     private Animal(
-        Animalid animalid,
+        AnimalId id,
         string name,
         string description,
         IdentifierAnimal identifier,
@@ -25,7 +25,7 @@ public class Animal : Entity<Animalid>
         VaccinationDetails alreadyVaccinated,
         HelpStatus status,
         RequisiteDetails requisites,
-        AnimalPhotosDetails animalPhotos) : base(animalid)
+        AnimalPhotosDetails animalPhotos) : base(id)
     {
         Name = name;
         Description = description;
@@ -47,16 +47,16 @@ public class Animal : Entity<Animalid>
 
     public string Name { get; private set; } = default!;
     public string Description { get; private set; } = default!;
-    public IdentifierAnimal Identifier { get; private set; }
+    public IdentifierAnimal? Identifier { get; private set; }
     public string Color { get; private set; } = default!;
     public string HealthInfo { get; private set; } = default!;
-    public Address AnimalAddress { get; private set; } = default!;
+    public Address? AnimalAddress { get; private set; } = default!;
     public double Weight { get; private set; }
     public double Height { get; private set; }
-    public PhoneNumber Phone { get; private set; } // Номер телефона для связи с владельцем
+    public PhoneNumber? Phone { get; private set; } // Номер телефона для связи с владельцем
     public bool IsNeutered { get; private set; } // Кастрирован или нет
     public DateTime DateOfBirth { get; private set; }
-    public VaccinationDetails AlreadyVaccinated { get; private set; }
+    public VaccinationDetails? AlreadyVaccinated { get; private set; }
     public HelpStatus? Status { get; private set; } // Статус помощи
     public DateTime CreatedAt { get; set; }
     public AnimalPhotosDetails? AnimalPhotos { get; private set; }
@@ -64,7 +64,7 @@ public class Animal : Entity<Animalid>
 
 
     public static Result<Animal> Create(
-        Animalid animalid,
+        AnimalId id,
         string name,
         string description,
         IdentifierAnimal identifier,
@@ -118,7 +118,7 @@ public class Animal : Entity<Animalid>
 
 
         return new Animal(
-            animalid,
+            id,
             name,
             description,
             identifier,

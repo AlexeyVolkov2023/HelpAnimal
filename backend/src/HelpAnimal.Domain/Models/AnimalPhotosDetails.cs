@@ -1,7 +1,7 @@
 ﻿namespace HelpAnimal.Domain.Models;
 
 
-public class AnimalPhotosDetails 
+public class AnimalPhotosDetails
 {
-   public List<AnimalPhoto> Photos { get; }  
+   public List<AnimalPhoto>? Photos { get; } 
 }

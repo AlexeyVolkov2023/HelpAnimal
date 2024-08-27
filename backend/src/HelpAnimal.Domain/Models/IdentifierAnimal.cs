@@ -4,22 +4,22 @@ namespace HelpAnimal.Domain.Models;
 
 public record IdentifierAnimal
 {
-    public IdentifierAnimal()
+    private IdentifierAnimal()
     {
     }
 
-    public IdentifierAnimal(Speciesid speciesId, Guid breedId)
+    private IdentifierAnimal(SpeciesId species, Guid breed)
     {
-        SpeciesId = speciesId;
-        BreedId = breedId;
+        SpeciesIdentifier = species;
+        BreedGuid = breed;
     }
     
-    public Speciesid SpeciesId { get; }
-    public Guid BreedId { get; }
+    public SpeciesId SpeciesIdentifier { get; }
+    public Guid BreedGuid { get; }
     
     
-    public static Result<IdentifierAnimal> Create(Speciesid speciesId, Guid breedId)
+    public static Result<IdentifierAnimal> Create(SpeciesId species, Guid breed)
     {
-        return new IdentifierAnimal(speciesId, breedId);
+        return new IdentifierAnimal(species, breed);
     }
 }

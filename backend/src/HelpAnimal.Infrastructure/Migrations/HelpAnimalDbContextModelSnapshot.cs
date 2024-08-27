@@ -76,52 +76,6 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");
 
-                    b.ComplexProperty<Dictionary<string, object>>("AnimalAddress", "HelpAnimal.Domain.Models.Animal.AnimalAddress#Address", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("animal_address_city");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("animal_address_country");
-
-                            b1.Property<int>("NumberHome")
-                                .HasMaxLength(100)
-                                .HasColumnType("integer")
-                                .HasColumnName("animal_address_number_home");
-
-                            b1.Property<string>("Street")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("animal_address_street");
-                        });
-
-                    b.ComplexProperty<Dictionary<string, object>>("Identifier", "HelpAnimal.Domain.Models.Animal.Identifier#IdentifierAnimal", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<Guid>("BreedId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("identifier_breed_id");
-
-                            b1.ComplexProperty<Dictionary<string, object>>("SpeciesId", "HelpAnimal.Domain.Models.Animal.Identifier#IdentifierAnimal.SpeciesId#Speciesid", b2 =>
-                                {
-                                    b2.IsRequired();
-
-                                    b2.Property<Guid>("Value")
-                                        .HasColumnType("uuid")
-                                        .HasColumnName("identifier_species_id_value");
-                                });
-                        });
-
                     b.ComplexProperty<Dictionary<string, object>>("Phone", "HelpAnimal.Domain.Models.Animal.Phone#PhoneNumber", b1 =>
                         {
                             b1.IsRequired();
@@ -174,7 +128,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.HasIndex("SpeciesId")
                         .HasDatabaseName("ix_breeds_species_id");
 
-                    b.ToTable("Breeds", (string)null);
+                    b.ToTable("breeds", (string)null);
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.Models.Species", b =>
@@ -192,7 +146,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.HasKey("Id")
                         .HasName("pk_species");
 
-                    b.ToTable("Species", (string)null);
+                    b.ToTable("species", (string)null);
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.Models.Volunteer", b =>
@@ -270,6 +224,44 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .WithMany("Animals")
                         .HasForeignKey("volunteer_id")
                         .HasConstraintName("fk_animals_volunteers_volunteer_id");
+
+                    b.OwnsOne("HelpAnimal.Domain.Models.Address", "AnimalAddress", b1 =>
+                        {
+                            b1.Property<Guid>("AnimalId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("animal_address_city");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("animal_address_country");
+
+                            b1.Property<int>("NumberHome")
+                                .HasMaxLength(100)
+                                .HasColumnType("integer")
+                                .HasColumnName("animal_address_number_home");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("animal_address_street");
+
+                            b1.HasKey("AnimalId");
+
+                            b1.ToTable("animals");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AnimalId")
+                                .HasConstraintName("fk_animals_animals_id");
+                        });
 
                     b.OwnsOne("HelpAnimal.Domain.Models.RequisiteDetails", "RequisiteCollection", b1 =>
                         {
@@ -365,6 +357,47 @@ namespace HelpAnimal.Infrastructura.Migrations
                             b1.Navigation("Photos");
                         });
 
+                    b.OwnsOne("HelpAnimal.Domain.Models.IdentifierAnimal", "Identifier", b1 =>
+                        {
+                            b1.Property<Guid>("AnimalId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("BreedGuid")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("AnimalId");
+
+                            b1.ToTable("animals");
+
+                            b1.ToJson("identifier");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AnimalId")
+                                .HasConstraintName("fk_animals_animals_id");
+
+                            b1.OwnsOne("HelpAnimal.Domain.Models.SpeciesId", "SpeciesIdentifier", b2 =>
+                                {
+                                    b2.Property<Guid>("IdentifierAnimalAnimalId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<Guid>("Value")
+                                        .HasColumnType("uuid");
+
+                                    b2.HasKey("IdentifierAnimalAnimalId");
+
+                                    b2.ToTable("animals");
+
+                                    b2.ToJson("identifier");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("IdentifierAnimalAnimalId")
+                                        .HasConstraintName("fk_animals_animals_identifier_animal_animal_id");
+                                });
+
+                            b1.Navigation("SpeciesIdentifier")
+                                .IsRequired();
+                        });
+
                     b.OwnsOne("HelpAnimal.Domain.Models.VaccinationDetails", "AlreadyVaccinated", b1 =>
                         {
                             b1.Property<Guid>("AnimalId")
@@ -411,10 +444,13 @@ namespace HelpAnimal.Infrastructura.Migrations
                             b1.Navigation("Vaccinations");
                         });
 
-                    b.Navigation("AlreadyVaccinated")
-                        .IsRequired();
+                    b.Navigation("AlreadyVaccinated");
+
+                    b.Navigation("AnimalAddress");
 
                     b.Navigation("AnimalPhotos");
+
+                    b.Navigation("Identifier");
 
                     b.Navigation("RequisiteCollection");
                 });
