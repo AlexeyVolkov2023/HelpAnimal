@@ -3,5 +3,5 @@
 
 public class AnimalPhotosDetails
 {
-   public List<AnimalPhoto>? Photos { get; } 
+   public IReadOnlyList<AnimalPhoto> Photos { get; } 
 }

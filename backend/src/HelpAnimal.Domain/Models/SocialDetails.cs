@@ -2,5 +2,5 @@
 
 public record SocialDetails
 {
-    public List<SocialNetwork>? Networks { get; private set;}
+    public IReadOnlyList<SocialNetwork>? Networks { get; }
 }

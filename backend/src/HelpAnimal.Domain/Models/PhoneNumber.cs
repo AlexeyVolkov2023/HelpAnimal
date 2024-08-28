@@ -24,8 +24,7 @@ public record PhoneNumber
 
         if (!Regex.IsMatch(number, PHONE_NUMBER_REGEX))
         {
-            throw new ArgumentException(
-                "Phone number is invalid. It should be 10-15 digits long, possibly with a '+' prefix.", nameof(number));
+            return "Phone number is invalid. It should be 10-15 digits long, possibly with a '+' prefix.";
         }
 
         return new PhoneNumber(number);

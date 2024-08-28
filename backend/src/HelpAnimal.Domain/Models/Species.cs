@@ -15,7 +15,7 @@ public class Species : Entity<SpeciesId>
         Breeds = breeds;
     }
 
-    public string? Title { get;  } 
+    public string Title { get;  } 
     public List<Breed>? Breeds { get;  } = []; 
 
     
