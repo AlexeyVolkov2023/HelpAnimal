@@ -17,7 +17,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
        builder.Property(a => a.Id)
            .HasConversion(
                id => id.Value,
-               value => Volunteerid.Create(value));
+               value => VolunteerId.Create(value));
 
        builder.ComplexProperty(a => a.FullName, b =>
        {

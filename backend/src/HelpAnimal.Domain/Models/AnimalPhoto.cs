@@ -10,7 +10,7 @@ public record AnimalPhoto
         IsMain = isMain;
     }
 
-    public string StoragePath { get; } = default!;
+    public string StoragePath { get; } 
     public bool IsMain { get; }
 
     public static Result<AnimalPhoto> Create(string storagePath, bool isMain)

@@ -2,5 +2,5 @@
 
 public class VaccinationDetails
 {
-    public List<Vaccination> Vaccinations { get;  private set; }
+    public IReadOnlyList<Vaccination> Vaccinations { get;  }
 }

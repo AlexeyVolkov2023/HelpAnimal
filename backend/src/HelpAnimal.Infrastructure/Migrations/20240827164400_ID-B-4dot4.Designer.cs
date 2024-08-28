@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HelpAnimal.Infrastructura.Migrations
 {
     [DbContext(typeof(HelpAnimalDbContext))]
-    [Migration("20240822164417_CreateValueObject")]
-    partial class CreateValueObject
+    [Migration("20240827164400_ID-B-4dot4")]
+    partial class IDB4dot4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,14 +29,8 @@ namespace HelpAnimal.Infrastructura.Migrations
             modelBuilder.Entity("HelpAnimal.Domain.Models.Animal", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
-
-                    b.Property<string>("Breed")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("breed");
 
                     b.Property<string>("Color")
                         .IsRequired()
@@ -77,11 +71,6 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasColumnType("character varying(10)")
                         .HasColumnName("name");
 
-                    b.Property<string>("Species")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("species");
-
                     b.Property<double>("Weight")
                         .HasColumnType("double precision")
                         .HasColumnName("weight");
@@ -96,8 +85,8 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                             b1.Property<string>("Number")
                                 .IsRequired()
-                                .HasMaxLength(11)
-                                .HasColumnType("character varying(11)")
+                                .HasMaxLength(15)
+                                .HasColumnType("character varying(15)")
                                 .HasColumnName("phone_number");
                         });
 
@@ -120,10 +109,52 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.ToTable("animals", (string)null);
                 });
 
+            modelBuilder.Entity("HelpAnimal.Domain.Models.Breed", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid?>("SpeciesId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("species_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id")
+                        .HasName("pk_breeds");
+
+                    b.HasIndex("SpeciesId")
+                        .HasDatabaseName("ix_breeds_species_id");
+
+                    b.ToTable("breeds", (string)null);
+                });
+
+            modelBuilder.Entity("HelpAnimal.Domain.Models.Species", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("character varying(15)")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id")
+                        .HasName("pk_species");
+
+                    b.ToTable("species", (string)null);
+                });
+
             modelBuilder.Entity("HelpAnimal.Domain.Models.Volunteer", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -146,7 +177,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasColumnName("description");
 
                     b.Property<int>("ExperienceYears")
-                        .HasMaxLength(30)
+                        .HasMaxLength(60)
                         .HasColumnType("integer")
                         .HasColumnName("experience_years");
 
@@ -159,6 +190,12 @@ namespace HelpAnimal.Infrastructura.Migrations
                                 .HasMaxLength(15)
                                 .HasColumnType("character varying(15)")
                                 .HasColumnName("full_name_name");
+
+                            b1.Property<string>("Patronymic")
+                                .IsRequired()
+                                .HasMaxLength(15)
+                                .HasColumnType("character varying(15)")
+                                .HasColumnName("full_name_patronymic");
 
                             b1.Property<string>("Surname")
                                 .IsRequired()
@@ -173,8 +210,8 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                             b1.Property<string>("Number")
                                 .IsRequired()
-                                .HasMaxLength(11)
-                                .HasColumnType("character varying(11)")
+                                .HasMaxLength(15)
+                                .HasColumnType("character varying(15)")
                                 .HasColumnName("phone_number");
                         });
 
@@ -191,61 +228,42 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasForeignKey("volunteer_id")
                         .HasConstraintName("fk_animals_volunteers_volunteer_id");
 
-                    b.OwnsOne("HelpAnimal.Domain.Models.AddressDetails", "AnimalAddresses", b1 =>
+                    b.OwnsOne("HelpAnimal.Domain.Models.Address", "AnimalAddress", b1 =>
                         {
                             b1.Property<Guid>("AnimalId")
-                                .HasColumnType("uuid");
+                                .HasColumnType("uuid")
+                                .HasColumnName("id");
+
+                            b1.Property<string>("City")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("animal_address_city");
+
+                            b1.Property<string>("Country")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("animal_address_country");
+
+                            b1.Property<int>("NumberHome")
+                                .HasMaxLength(100)
+                                .HasColumnType("integer")
+                                .HasColumnName("animal_address_number_home");
+
+                            b1.Property<string>("Street")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("character varying(100)")
+                                .HasColumnName("animal_address_street");
 
                             b1.HasKey("AnimalId");
 
                             b1.ToTable("animals");
 
-                            b1.ToJson("animal_addresses");
-
                             b1.WithOwner()
                                 .HasForeignKey("AnimalId")
                                 .HasConstraintName("fk_animals_animals_id");
-
-                            b1.OwnsMany("HelpAnimal.Domain.Models.Address", "Addresses", b2 =>
-                                {
-                                    b2.Property<Guid>("AddressDetailsAnimalId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("City")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)");
-
-                                    b2.Property<string>("Country")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)");
-
-                                    b2.Property<int>("NumberHome")
-                                        .HasMaxLength(100)
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Street")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)");
-
-                                    b2.HasKey("AddressDetailsAnimalId", "Id");
-
-                                    b2.ToTable("animals");
-
-                                    b2.ToJson("animal_addresses");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("AddressDetailsAnimalId")
-                                        .HasConstraintName("fk_animals_animals_address_details_animal_id");
-                                });
-
-                            b1.Navigation("Addresses");
                         });
 
                     b.OwnsOne("HelpAnimal.Domain.Models.RequisiteDetails", "RequisiteCollection", b1 =>
@@ -342,6 +360,47 @@ namespace HelpAnimal.Infrastructura.Migrations
                             b1.Navigation("Photos");
                         });
 
+                    b.OwnsOne("HelpAnimal.Domain.Models.IdentifierAnimal", "Identifier", b1 =>
+                        {
+                            b1.Property<Guid>("AnimalId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("BreedGuid")
+                                .HasColumnType("uuid");
+
+                            b1.HasKey("AnimalId");
+
+                            b1.ToTable("animals");
+
+                            b1.ToJson("identifier");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AnimalId")
+                                .HasConstraintName("fk_animals_animals_id");
+
+                            b1.OwnsOne("HelpAnimal.Domain.Models.SpeciesId", "SpeciesIdentifier", b2 =>
+                                {
+                                    b2.Property<Guid>("IdentifierAnimalAnimalId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<Guid>("Value")
+                                        .HasColumnType("uuid");
+
+                                    b2.HasKey("IdentifierAnimalAnimalId");
+
+                                    b2.ToTable("animals");
+
+                                    b2.ToJson("identifier");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("IdentifierAnimalAnimalId")
+                                        .HasConstraintName("fk_animals_animals_identifier_animal_animal_id");
+                                });
+
+                            b1.Navigation("SpeciesIdentifier")
+                                .IsRequired();
+                        });
+
                     b.OwnsOne("HelpAnimal.Domain.Models.VaccinationDetails", "AlreadyVaccinated", b1 =>
                         {
                             b1.Property<Guid>("AnimalId")
@@ -351,7 +410,7 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                             b1.ToTable("animals");
 
-                            b1.ToJson("already_vaccinated");
+                            b1.ToJson("already_vaccination");
 
                             b1.WithOwner()
                                 .HasForeignKey("AnimalId")
@@ -378,7 +437,7 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                                     b2.ToTable("animals");
 
-                                    b2.ToJson("already_vaccinated");
+                                    b2.ToJson("already_vaccination");
 
                                     b2.WithOwner()
                                         .HasForeignKey("VaccinationDetailsAnimalId")
@@ -388,15 +447,24 @@ namespace HelpAnimal.Infrastructura.Migrations
                             b1.Navigation("Vaccinations");
                         });
 
-                    b.Navigation("AlreadyVaccinated")
-                        .IsRequired();
+                    b.Navigation("AlreadyVaccinated");
 
-                    b.Navigation("AnimalAddresses")
-                        .IsRequired();
+                    b.Navigation("AnimalAddress");
 
                     b.Navigation("AnimalPhotos");
 
+                    b.Navigation("Identifier");
+
                     b.Navigation("RequisiteCollection");
+                });
+
+            modelBuilder.Entity("HelpAnimal.Domain.Models.Breed", b =>
+                {
+                    b.HasOne("HelpAnimal.Domain.Models.Species", null)
+                        .WithMany("Breeds")
+                        .HasForeignKey("SpeciesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("fk_breeds_species_species_id");
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.Models.Volunteer", b =>
@@ -429,7 +497,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                                         .IsRequired()
                                         .HasColumnType("text");
 
-                                    b2.Property<string>("Name")
+                                    b2.Property<string>("Title")
                                         .IsRequired()
                                         .HasColumnType("text");
 
@@ -498,6 +566,11 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.Navigation("RequisiteCollection");
 
                     b.Navigation("SocialNetworks");
+                });
+
+            modelBuilder.Entity("HelpAnimal.Domain.Models.Species", b =>
+                {
+                    b.Navigation("Breeds");
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.Models.Volunteer", b =>
