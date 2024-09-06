@@ -21,13 +21,12 @@ public static class Errors
             var label = name == null ? "" : " " + name + " ";
             return Error.Validation("length.is.invalid", $"invalid{label}length)");
         }
-    }
-
-    public static class Volunteer
-    {
+        
         public static Error AlreadyExist()
         {
             return Error.Validation("record.already.exist", "Volunteer already exist");
         }
     }
+
+   
 }

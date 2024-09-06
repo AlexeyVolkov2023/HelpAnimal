@@ -20,9 +20,9 @@ public class CreateVolunteerHandler
         CancellationToken cancellationToken = default)
     {
         var fullNameResult = FullName.Create(
-            request.Name,
-            request.Surname,
-            request.Patronymik);
+            request.FullNameDto.Name,
+            request.FullNameDto.Surname,
+            request.FullNameDto.Patronymik);
         if (fullNameResult.IsFailure)
             return fullNameResult.Error;
 
@@ -45,7 +45,7 @@ public class CreateVolunteerHandler
         var volunteer = await _volunteersRepository.GetByNumber(phoneNumberResult.Value);
 
         if (volunteer.IsSuccess)
-            return Errors.Volunteer.AlreadyExist();
+            return Errors.General.AlreadyExist();
 
         var volunteerId = VolunteerId.NewVolunteerId();
 

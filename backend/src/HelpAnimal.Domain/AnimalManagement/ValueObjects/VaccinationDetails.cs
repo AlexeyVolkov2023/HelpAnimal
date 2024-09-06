@@ -6,9 +6,9 @@ public class VaccinationDetails
     {
     }
 
-    public VaccinationDetails(List<Vaccination> vaccinations)
+    public VaccinationDetails(IEnumerable<Vaccination> vaccinations)
     {
-        Vaccinations = vaccinations;
+        Vaccinations = vaccinations.ToList();
     }
 
     public IReadOnlyList<Vaccination> Vaccinations { get;  }

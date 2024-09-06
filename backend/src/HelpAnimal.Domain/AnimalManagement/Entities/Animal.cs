@@ -39,16 +39,16 @@ public class Animal : Shared.Entity<AnimalId>
     }
 
     public AnimalData Profile { get; private set; }
-    public IdentifierAnimal? Identifier { get; private set; }
+    public IdentifierAnimal Identifier { get; private set; }
     public AnimalInformation Information { get; private set; }
-    public Address? AnimalAddress { get; private set; } = default!;
-    public PhoneNumber? Phone { get; private set; } // Номер телефона для связи с владельцем
+    public Address AnimalAddress { get; private set; } = default!;
+    public PhoneNumber Phone { get; private set; } // Номер телефона для связи с владельцем
     public DateTime DateOfBirth { get; private set; }
     public VaccinationDetails? AlreadyVaccinated { get; private set; }
-    public HelpStatus? Status { get; private set; } // Статус помощи
+    public HelpStatus Status { get; private set; } // Статус помощи
     public DateTime CreatedAt { get; set; }
-    public AnimalPhotosDetails? AnimalPhotos { get; private set; }
-    public RequisiteDetails? RequisiteCollection { get; private set; }
+    public AnimalPhotosDetails AnimalPhotos { get; private set; }
+    public RequisiteDetails RequisiteCollection { get; private set; }
 
 
     public static Result<Animal> Create(

@@ -3,7 +3,7 @@ using HelpAnimal.Domain.Shared;
 
 namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
-public class AnimalData
+public record AnimalData
 {
     public AnimalData(string name, string description)
     {

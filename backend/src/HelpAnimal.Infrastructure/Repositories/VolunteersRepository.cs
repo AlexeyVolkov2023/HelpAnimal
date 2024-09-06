@@ -17,7 +17,9 @@ public class VolunteersRepository : IVolunteersRepository
         _dbContext = dbContext;
     }
 
-    public async Task<Guid> Add(Volunteer volunteer, CancellationToken cancellationToken = default)
+    public async Task<Guid> Add(
+        Volunteer volunteer,
+        CancellationToken cancellationToken = default)
     {
         await _dbContext.Volunteers.AddAsync(volunteer, cancellationToken);
 
@@ -26,12 +28,12 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer.Id;
     }
 
-    public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId)
+    public async Task<Result<Volunteer, Error>> GetById(
+        VolunteerId volunteerId,
+        CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
             .Include(v => v.Animals) 
-            .Include(v => v.SocialNetworks) 
-            .Include(v => v.RequisiteCollection) 
             .FirstOrDefaultAsync(v => v.Id == volunteerId);
 
         if (volunteer is null)
@@ -40,12 +42,12 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer;
     }
 
-    public async Task<Result<Volunteer, Error>> GetByNumber(PhoneNumber number)
+    public async Task<Result<Volunteer, Error>> GetByNumber(
+        PhoneNumber number,
+        CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
             .Include(v => v.Animals) 
-            .Include(v => v.SocialNetworks) 
-            .Include(v => v.RequisiteCollection) 
             .FirstOrDefaultAsync(v => v.Phone == number);
 
         if (volunteer is null)

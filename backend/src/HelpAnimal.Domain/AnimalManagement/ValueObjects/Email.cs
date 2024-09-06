@@ -6,10 +6,6 @@ namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
 public record Email
 {
-    /*private Email()
-    {
-    }*/
-
     private const string EMAIL_REGEX_PATTERN = @"^[^@]+@[^@]+\.[^@]+$";
     
     private Email(string value)

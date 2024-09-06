@@ -7,9 +7,9 @@ public record AnimalPhotosDetails
    {
    }
 
-   public AnimalPhotosDetails(List<AnimalPhoto> photos)
+   public AnimalPhotosDetails(IEnumerable<AnimalPhoto> photos)
    {
-      Photos = photos;
+      Photos = photos.ToList();
    }
 
    public IReadOnlyList<AnimalPhoto> Photos { get; } 

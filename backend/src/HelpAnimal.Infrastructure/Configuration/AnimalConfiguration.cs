@@ -32,7 +32,7 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
 
         builder.OwnsOne(a => a.Identifier, ai =>
         {
-            ai.ToJson();
+            ai.ToJson("identifier_animal");
             ai.OwnsOne(b => b.SpeciesIdentifier, c => { c.Property(d => d.Value); });
             ai.Property(d => d.BreedGuid);
         });

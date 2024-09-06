@@ -18,7 +18,7 @@ public record FullName
 
     public string Name { get; }
     public string Surname { get; }
-    public string Patronymic { get; }
+    public string? Patronymic { get; }
 
     public static Result<FullName, Error> Create(
         string name, 

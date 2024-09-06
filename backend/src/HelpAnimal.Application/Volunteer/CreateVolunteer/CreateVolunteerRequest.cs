@@ -1,13 +1,16 @@
 ﻿namespace HelpAnimal.Application.Volunteer.CreateVolunteer;
 
 public record CreateVolunteerRequest(
-    string Name, 
-    string Surname,
-    string Patronymik,
+    CreateFullNameDTO FullNameDto,
     string Number,
     string Email,
     string Description,
     int ExperienceYears
-    );
+);
 
-
+public record CreateFullNameDTO
+{
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public string Patronymik { get; set; }
+}

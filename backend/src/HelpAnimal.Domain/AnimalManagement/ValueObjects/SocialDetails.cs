@@ -6,9 +6,9 @@ public record SocialDetails
     {
     }
 
-    public SocialDetails(List<SocialNetwork>? networks)
+    public SocialDetails(IEnumerable<SocialNetwork>? networks)
     {
-        Networks = networks;
+        Networks = networks.ToList();
     }
 
     public IReadOnlyList<SocialNetwork>? Networks { get; }
