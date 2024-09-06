@@ -1,30 +1,38 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.RegularExpressions;
+using CSharpFunctionalExtensions;
+using HelpAnimal.Domain.Shared;
 
 namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
 public record SocialNetwork
 {
-    private SocialNetwork(string title, string link)
+    private const string REGEX_FOR_URL = @"^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$";
+    private SocialNetwork(string network, string link)
     {
-        Title = title;
+        Network = network;
         Link = link;
     }
 
-    public string Title { get; }
+    public string Network { get; }
     public string Link { get; }
 
-    public static Result<SocialNetwork> Create(string title, string link)
+    public static Result<SocialNetwork, Error> Create(string network, string link)
     {
-        if (string.IsNullOrWhiteSpace(title))
+        if (string.IsNullOrWhiteSpace(network))
         {
-            return Result.Failure<SocialNetwork>("Title cannot be empty or whitespace.");
+            return Errors.General.ValueIsInvalid("Network");
         }
 
         if (string.IsNullOrWhiteSpace(link))
         {
-            return Result.Failure<SocialNetwork>("Link cannot be empty or whitespace.");
+            return Errors.General.ValueIsInvalid("Link");
+        }
+        
+        if (!Regex.IsMatch(link, REGEX_FOR_URL))
+        {
+            return Errors.General.ValueIsInvalid("Link");
         }
 
-        return Result.Success(new SocialNetwork(title, link));
+        return new SocialNetwork(network, link);
     }
 }

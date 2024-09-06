@@ -1,6 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects.ID;
+using HelpAnimal.Domain.Shared;
 using HelpAnimal.Domain.Shared.ValueObject;
 
 namespace HelpAnimal.Domain.AnimalManagement.Entities;
@@ -19,7 +20,7 @@ public class Animal : Shared.Entity<AnimalId>
         AnimalInformation information,
         Address address,
         PhoneNumber phone,
-        DateTime dateOfBirth,
+        AnimalsBirthday birthday,
         VaccinationDetails alreadyVaccinated,
         HelpStatus status,
         RequisiteDetails requisites,
@@ -30,7 +31,7 @@ public class Animal : Shared.Entity<AnimalId>
         Information = information;
         AnimalAddress = address;
         Phone = phone;
-        DateOfBirth = dateOfBirth;
+        Birthday = birthday;
         AlreadyVaccinated = alreadyVaccinated;
         Status = status;
         CreatedAt = DateTime.Now;
@@ -43,7 +44,7 @@ public class Animal : Shared.Entity<AnimalId>
     public AnimalInformation Information { get; private set; }
     public Address? AnimalAddress { get; private set; } = default!;
     public PhoneNumber? Phone { get; private set; } // Номер телефона для связи с владельцем
-    public DateTime DateOfBirth { get; private set; }
+    public AnimalsBirthday Birthday { get; private set; }
     public VaccinationDetails? AlreadyVaccinated { get; private set; }
     public HelpStatus? Status { get; private set; } // Статус помощи
     public DateTime CreatedAt { get; set; }
@@ -51,36 +52,30 @@ public class Animal : Shared.Entity<AnimalId>
     public RequisiteDetails? RequisiteCollection { get; private set; }
 
 
-    public static Result<Animal> Create(
+    public static Result<Animal, Error> Create(
         AnimalId id,
         AnimalData profile,
         IdentifierAnimal identifier,
         AnimalInformation information,
         Address address,
         PhoneNumber phone,
-        DateTime dateOfBirth,
+        AnimalsBirthday birthday,
         VaccinationDetails alreadyVaccinated,
         HelpStatus status,
         RequisiteDetails requisites,
         AnimalPhotosDetails animalPhotos)
     {
-        if (dateOfBirth > DateTime.Now)
-        {
-            return Result.Failure<Animal>("Date of birth cannot be in the future.");
-        }
-
-
-        return Result.Success(new Animal(
+        return new Animal(
             id,
             profile,
             identifier,
             information,
             address,
             phone,
-            dateOfBirth,
+            birthday,
             alreadyVaccinated,
             status,
             requisites,
-            animalPhotos));
+            animalPhotos);
     }
 }

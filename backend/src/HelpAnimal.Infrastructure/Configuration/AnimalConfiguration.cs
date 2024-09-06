@@ -77,9 +77,12 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
             b.Property(p => p.Number)
                 .HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
         });
-
-        builder.Property(a => a.DateOfBirth)
-            .IsRequired();
+        
+        builder.ComplexProperty(a => a.Birthday, bb =>
+        {
+            bb.IsRequired();
+            bb.Property(a => a.Birthday);
+        });
 
         builder.OwnsOne(a => a.AlreadyVaccinated, av =>
         {

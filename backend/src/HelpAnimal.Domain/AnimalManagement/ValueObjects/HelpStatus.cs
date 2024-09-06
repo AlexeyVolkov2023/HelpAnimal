@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using HelpAnimal.Domain.Shared;
 
 namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
@@ -18,17 +19,15 @@ public record HelpStatus
 
     public string? Value { get; }
 
-    public static Result<HelpStatus> Create(string input)
+    public static Result<HelpStatus, Error> Create(string input)
     {
         var check = input.Trim().ToLower();
 
         if (!_all.Any(s => s.Value == check))
         {
-            return Result.Failure<HelpStatus>(
-                $"Invalid HelpStatus value: {check}." +
-                $" Valid values are: {string.Join(", ", _all.Select(s => s.Value))}");
+            return Errors.General.ValueIsInvalid("HelpStatus");
         }
 
-        return Result.Success(new HelpStatus(check));
+        return new HelpStatus(check);
     }
 }
