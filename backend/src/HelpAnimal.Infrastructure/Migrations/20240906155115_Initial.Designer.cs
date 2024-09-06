@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HelpAnimal.Infrastructura;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HelpAnimal.Infrastructura.Migrations
 {
     [DbContext(typeof(HelpAnimalDbContext))]
-    partial class HelpAnimalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240906155115_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,16 +41,6 @@ namespace HelpAnimal.Infrastructura.Migrations
                                 .HasMaxLength(2000)
                                 .HasColumnType("character varying(2000)")
                                 .HasColumnName("description_value");
-                        });
-
-                    b.ComplexProperty<Dictionary<string, object>>("Email", "HelpAnimal.Domain.AnimalManagement.AggregateRoot.Volunteer.Email#Email", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("email_value");
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("Experience", "HelpAnimal.Domain.AnimalManagement.AggregateRoot.Volunteer.Experience#ExsperienceYears", b1 =>

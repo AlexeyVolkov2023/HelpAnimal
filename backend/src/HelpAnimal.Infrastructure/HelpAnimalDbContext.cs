@@ -1,11 +1,10 @@
-﻿using HelpAnimal.Domain.Models;
-using HelpAnimal.Infrastructura.Configuration;
+﻿using HelpAnimal.Domain.AnimalManagement.AggregateRoot;
+using HelpAnimal.Domain.SpeciesManagement.AggregateRoot;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-
-namespace HelpAnimal.Infrastructure;
+namespace HelpAnimal.Infrastructura;
 
 public class HelpAnimalDbContext(IConfiguration configuration) : DbContext
 {

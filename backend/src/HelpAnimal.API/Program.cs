@@ -1,4 +1,5 @@
-using HelpAnimal.Infrastructure;
+using HelpAnimal.Application;
+using HelpAnimal.Infrastructura;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<HelpAnimalDbContext>();
+builder.Services
+    .AddInfrastructure()
+    .AddApplication();
 
 var app = builder.Build();
 
