@@ -33,7 +33,7 @@ public class VolunteersRepository : IVolunteersRepository
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .Include(v => v.Animals) 
+            .Include(v => v.Animals)
             .FirstOrDefaultAsync(v => v.Id == volunteerId);
 
         if (volunteer is null)
@@ -47,7 +47,7 @@ public class VolunteersRepository : IVolunteersRepository
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
-            .Include(v => v.Animals) 
+            .Include(v => v.Animals)
             .FirstOrDefaultAsync(v => v.Phone == number);
 
         if (volunteer is null)

@@ -9,9 +9,6 @@ namespace HelpAnimal.Domain.AnimalManagement.AggregateRoot;
 
 public class Volunteer : Shared.Entity<VolunteerId>
 {
-    private readonly int _adoptedAnimalsCount;
-    private readonly int _currentAnimalsCount;
-    private readonly int _animalsInTreatmentCount;
     private readonly List<Animal> _animals = [];
 
     private Volunteer(VolunteerId id) : base(id)
@@ -39,9 +36,9 @@ public class Volunteer : Shared.Entity<VolunteerId>
     public Email Email { get; private set; }
     public Description Description { get; private set; }
     public ExsperienceYears Experience { get; private set; }
-    public SocialDetails? SocialNetworks { get; private set; }
-    public RequisiteDetails? RequisiteCollection { get; private set; }
-    public IReadOnlyList<Animal>? Animals { get; private set; }
+    public SocialDetails SocialNetworks { get; private set; }
+    public RequisiteDetails RequisiteCollection { get; private set; }
+    public IReadOnlyList<Animal> Animals { get; private set; }
 
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
@@ -67,10 +64,10 @@ public class Volunteer : Shared.Entity<VolunteerId>
 
         return Result.Success<Error>();
     }
-
-    public int GetAdoptedAnimalsCount() => _adoptedAnimalsCount;
-
-    public int GetCurrentAnimalsCount() => _currentAnimalsCount;
-
-    public int GetAnimalsInTreatmentCount() => _animalsInTreatmentCount;
+    
+    public int GetAnimalCountByStatus(HelpStatus status)
+    {
+        return _animals.Count(a => a.Status == status); 
+    }
+  
 }
