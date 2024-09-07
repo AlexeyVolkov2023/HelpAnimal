@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HelpAnimal.Infrastructura.Migrations
 {
     /// <inheritdoc />
-    public partial class IDB4dot4 : Migration
+    public partial class CorrectionResult : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,11 +28,9 @@ namespace HelpAnimal.Infrastructura.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
-                    experience_years = table.Column<int>(type: "integer", maxLength: 60, nullable: false),
-                    adopted_animals_count = table.Column<int>(type: "integer", nullable: false),
-                    current_animals_count = table.Column<int>(type: "integer", nullable: false),
-                    animals_in_treatment_count = table.Column<int>(type: "integer", nullable: false),
+                    description_value = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    email_value = table.Column<string>(type: "text", nullable: false),
+                    experience_experience_years = table.Column<int>(type: "integer", maxLength: 60, nullable: false),
                     full_name_name = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     full_name_patronymic = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     full_name_surname = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
@@ -69,24 +67,16 @@ namespace HelpAnimal.Infrastructura.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
-                    color = table.Column<string>(type: "text", nullable: false),
-                    health_info = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    animal_address_country = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    animal_address_city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    animal_address_street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    animal_address_number_home = table.Column<int>(type: "integer", maxLength: 100, nullable: true),
-                    weight = table.Column<double>(type: "double precision", nullable: false),
-                    height = table.Column<double>(type: "double precision", nullable: false),
-                    is_neutered = table.Column<bool>(type: "boolean", nullable: false),
-                    date_of_birth = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    animals_birthday_birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     status_value = table.Column<string>(type: "text", nullable: false),
                     already_vaccination = table.Column<string>(type: "jsonb", nullable: true),
+                    animal_address = table.Column<string>(type: "jsonb", nullable: true),
+                    animal_information = table.Column<string>(type: "jsonb", nullable: false),
                     animal_photos = table.Column<string>(type: "jsonb", nullable: true),
+                    animal_profile = table.Column<string>(type: "jsonb", nullable: false),
                     identifier = table.Column<string>(type: "jsonb", nullable: true),
                     requisite_collection = table.Column<string>(type: "jsonb", nullable: true)
                 },

@@ -14,18 +14,18 @@ public record Requisite
     public string Description { get; }
 
 
-    public static Result<Requisite> Create(string title, string description)
+    public static Result<Requisite, Error> Create(string title, string description)
     {
         if (string.IsNullOrWhiteSpace(title))
         {
-            return Result.Failure<Requisite>("Title cannot be empty or whitespace.");
+            return Errors.General.ValueIsInvalid("Title requisite");
         }
 
         if (string.IsNullOrWhiteSpace(description))
         {
-            return Result.Failure<Requisite>("Description cannot be empty or whitespace.");
+            return Errors.General.ValueIsInvalid("Description requisite");
         }
 
-        return Result.Success(new Requisite(title, description));
+        return new Requisite(title, description);
     }
 }

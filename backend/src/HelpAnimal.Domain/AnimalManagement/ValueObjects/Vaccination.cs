@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using HelpAnimal.Domain.Shared;
 
 namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
@@ -13,18 +14,18 @@ public record Vaccination
     public string NameVaccine { get; }
     public DateTime DateVaccination { get; }
 
-    public static Result<Vaccination> Create(string nameVaccine, DateTime dateVaccination)
+    public static Result<Vaccination, Error> Create(string nameVaccine, DateTime dateVaccination)
     {
         if (string.IsNullOrWhiteSpace(nameVaccine))
         {
-            return Result.Failure<Vaccination>("Name of vaccine cannot be empty or whitespace.");
+            return Errors.General.ValueIsInvalid("Name of vaccine");
         }
 
         if (dateVaccination > DateTime.Now)
         {
-            return Result.Failure<Vaccination>("Vaccination date cannot be in the future.");
+            return Errors.General.ValueIsInvalid("Vaccination date");
         }
 
-        return Result.Success(new Vaccination(nameVaccine, dateVaccination));
+        return new Vaccination(nameVaccine, dateVaccination);
     }
 }

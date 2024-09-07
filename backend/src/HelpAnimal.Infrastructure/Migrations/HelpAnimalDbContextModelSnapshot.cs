@@ -110,13 +110,18 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_of_birth");
-
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Birthday", "HelpAnimal.Domain.AnimalManagement.Entities.Animal.Birthday#AnimalsBirthday", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<DateTime>("Birthday")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("birthday_birthday");
+                        });
 
                     b.ComplexProperty<Dictionary<string, object>>("Phone", "HelpAnimal.Domain.AnimalManagement.Entities.Animal.Phone#PhoneNumber", b1 =>
                         {
@@ -269,7 +274,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                                         .IsRequired()
                                         .HasColumnType("text");
 
-                                    b2.Property<string>("Title")
+                                    b2.Property<string>("Network")
                                         .IsRequired()
                                         .HasColumnType("text");
 
