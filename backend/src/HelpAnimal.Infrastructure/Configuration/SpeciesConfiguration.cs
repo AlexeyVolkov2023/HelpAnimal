@@ -1,4 +1,5 @@
-using HelpAnimal.Domain.Models;
+using HelpAnimal.Domain.SpeciesManagement.AggregateRoot;
+using HelpAnimal.Domain.SpeciesManagement.ID;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

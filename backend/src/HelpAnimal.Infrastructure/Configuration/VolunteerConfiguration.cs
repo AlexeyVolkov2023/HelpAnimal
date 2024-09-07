@@ -1,5 +1,7 @@
-﻿using HelpAnimal.Domain.ForAll;
-using HelpAnimal.Domain.Models;
+﻿using HelpAnimal.Domain.AnimalManagement.AggregateRoot;
+using HelpAnimal.Domain.AnimalManagement.ValueObjects;
+using HelpAnimal.Domain.AnimalManagement.ValueObjects.ID;
+using HelpAnimal.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -7,55 +9,57 @@ namespace HelpAnimal.Infrastructura.Configuration;
 
 public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
 {
-    
     public void Configure(EntityTypeBuilder<Volunteer> builder)
     {
         builder.ToTable("volunteers");
-        
-       builder.HasKey(v => v.Id);
-       
-       builder.Property(a => a.Id)
-           .HasConversion(
-               id => id.Value,
-               value => VolunteerId.Create(value));
 
-       builder.ComplexProperty(a => a.FullName, b =>
-       {
-          b.Property(c => c.Name)
-              .IsRequired()
-              .HasMaxLength(Constants.NAME_MAX_LENGTH);
-          b.Property(c => c.Surname)
-              .IsRequired()
-              .HasMaxLength(FullName.SURNAME_MAX_LENGTH);
-          b.Property(c => c.Patronymic)
-              .IsRequired()
-              .HasMaxLength(FullName.PATRONYMIC_MAX_LENGTH);
-          
-       });
+        builder.HasKey(v => v.Id);
 
-        builder.Property(v => v.Description)
-            .IsRequired()
-            .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
+        builder.Property(v => v.Id)
+            .HasConversion(
+                id => id.Value,
+                value => VolunteerId.Create(value));
 
-        builder.Property(v => v.ExperienceYears)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_EXPERIENCE_YEARS);
-
-        builder.Property(v => v.AdoptedAnimalsCount)
-            .IsRequired();
-
-        builder.Property(v => v.CurrentAnimalsCount)
-            .IsRequired();
-
-        builder.Property(v => v.AnimalsInTreatmentCount)
-            .IsRequired();
-
-        builder.ComplexProperty(a => a.Phone, b =>
+        builder.ComplexProperty(v => v.FullName, fb =>
         {
-            b.IsRequired();
-            b.Property(c => c.Number)
+            fb.Property(f => f.Name)
+                .IsRequired()
+                .HasMaxLength(Constants.NAME_MAX_LENGTH);
+            fb.Property(f => f.Surname)
+                .IsRequired()
+                .HasMaxLength(FullName.SURNAME_MAX_LENGTH);
+            fb.Property(f => f.Patronymic)
+                .IsRequired()
+                .HasMaxLength(FullName.PATRONYMIC_MAX_LENGTH);
+        });
+
+        builder.ComplexProperty(v => v.Phone, pb =>
+        {
+            pb.IsRequired();
+            pb.Property(p => p.Number)
                 .HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
         });
+
+        builder.ComplexProperty(v => v.Email, eb =>
+        {
+            eb.IsRequired();
+            eb.Property(p => p.Value);
+        });
+
+        builder.ComplexProperty(v => v.Description, db =>
+        {
+            db.IsRequired();
+            db.Property(d => d.Value)
+                .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
+        });
+
+        builder.ComplexProperty(v => v.Experience, eb =>
+        {
+            eb.IsRequired();
+            eb.Property(d => d.ExperienceYears)
+                .HasMaxLength(Constants.MAX_EXPERIENCE_YEARS);
+        });
+
 
         builder.OwnsOne(a => a.SocialNetworks, a =>
         {
@@ -68,7 +72,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                     .IsRequired();
             });
         });
-        
+
         builder.OwnsOne(a => a.RequisiteCollection, a =>
         {
             a.ToJson("requisite_collection");
@@ -82,7 +86,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
                     .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
             });
         });
-        
+
         builder.HasMany(v => v.Animals)
             .WithOne()
             .HasForeignKey("volunteer_id");

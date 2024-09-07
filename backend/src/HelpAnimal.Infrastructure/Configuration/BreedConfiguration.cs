@@ -1,5 +1,6 @@
-using HelpAnimal.Domain.ForAll;
-using HelpAnimal.Domain.Models;
+using HelpAnimal.Domain.Shared;
+using HelpAnimal.Domain.SpeciesManagement.Entities;
+using HelpAnimal.Domain.SpeciesManagement.ID;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

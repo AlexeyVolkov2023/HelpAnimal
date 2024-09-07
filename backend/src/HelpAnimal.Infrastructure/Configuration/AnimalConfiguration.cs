@@ -1,7 +1,8 @@
-﻿using HelpAnimal.Domain.Models;
+﻿using HelpAnimal.Domain.AnimalManagement.Entities;
+using HelpAnimal.Domain.AnimalManagement.ValueObjects.ID;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Constants = HelpAnimal.Domain.ForAll.Constants;
+using Constants = HelpAnimal.Domain.Shared.Constants;
 
 namespace HelpAnimal.Infrastructura.Configuration;
 
@@ -18,40 +19,50 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
                 id => id.Value,
                 value => AnimalId.Create(value));
 
-        builder.Property(a => a.Name)
-            .IsRequired()
-            .HasMaxLength(Constants.MAX_ANIMAL_NAME_LENGTH);
-
-        builder.Property(a => a.Description)
-            .IsRequired()
-            .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
+        builder.OwnsOne(a => a.Profile, pb =>
+        {
+            pb.ToJson("animal_profile");
+            pb.Property(ad => ad.Name)
+                .HasMaxLength(Constants.NAME_MAX_LENGTH)
+                .IsRequired();
+            pb.Property(ad => ad.Description)
+                .HasMaxLength(Constants.HIGH_TEXT_LENGTH)
+                    .IsRequired();
+        });
 
         builder.OwnsOne(a => a.Identifier, ai =>
         {
-            ai.ToJson();
-            ai.OwnsOne(b => b.SpeciesIdentifier, c => 
-                { c.Property(d => d.Value); });
+            ai.ToJson("identifier_animal");
+            ai.OwnsOne(b => b.SpeciesIdentifier, c => { c.Property(d => d.Value); });
             ai.Property(d => d.BreedGuid);
         });
-        
-      
 
-        builder.Property(a => a.Color)
-            .IsRequired();
-
-        builder.Property(a => a.HealthInfo)
-            .IsRequired()
-            .HasMaxLength(Constants.MEDIUM_TEXT_LENGTH);
+        builder.OwnsOne(a => a.Information, ib =>
+        {
+            ib.ToJson("animal_information");
+            ib.Property(b => b.HealthInfo)
+                .IsRequired()
+                .HasMaxLength(Constants.MEDIUM_TEXT_LENGTH);
+            ib.Property(b => b.Color)
+                .IsRequired();
+            ib.Property(b => b.Height)
+                .IsRequired();
+            ib.Property(b => b.Weight)
+                .IsRequired();
+            ib.Property(b => b.IsNeutered)
+                .IsRequired();
+        });
 
 
         builder.OwnsOne(a => a.AnimalAddress, aa =>
         {
+            aa.ToJson("animal_address");
             aa.Property(b => b.Country)
                 .IsRequired()
                 .HasMaxLength(Constants.LOW_TEXT_LENGTH);
             aa.Property(d => d.City)
                 .IsRequired()
-                .HasMaxLength(Constants.LOW_TEXT_LENGTH);    
+                .HasMaxLength(Constants.LOW_TEXT_LENGTH);
             aa.Property(d => d.Street)
                 .IsRequired()
                 .HasMaxLength(Constants.LOW_TEXT_LENGTH);
@@ -60,22 +71,12 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
                 .HasMaxLength(Constants.LOW_TEXT_LENGTH);
         });
 
-        builder.Property(a => a.Weight)
-            .IsRequired();
-
-        builder.Property(a => a.Height)
-            .IsRequired();
-
         builder.ComplexProperty(a => a.Phone, b =>
         {
             b.IsRequired();
             b.Property(p => p.Number)
                 .HasMaxLength(Constants.MAX_PHONENUMBER_LENGTH);
         });
-
-
-        builder.Property(a => a.IsNeutered)
-            .IsRequired();
 
         builder.Property(a => a.DateOfBirth)
             .IsRequired();
