@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
+using FluentValidation;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects.ID;
 using HelpAnimal.Domain.Shared;
@@ -20,30 +22,20 @@ public class CreateVolunteerHandler
         CreateVolunteerRequest request,
         CancellationToken cancellationToken = default)
     {
-        var fullNameResult = FullName.Create(
-            request.FullNameDto.Name,
-            request.FullNameDto.Surname,
-            request.FullNameDto.Patronymik);
-        if (fullNameResult.IsFailure)
-            return fullNameResult.Error;
+        var fullName = FullName.Create(
+            request.FullNameDTO.Name,
+            request.FullNameDTO.Surname,
+            request.FullNameDTO.Patronymik!).Value;
 
-        var phoneNumberResult = PhoneNumber.Create(request.Number);
-        if (phoneNumberResult.IsFailure)
-            return phoneNumberResult.Error;
+        var phoneNumber = PhoneNumber.Create(request.Number).Value;
 
-        var emailResult = Email.Create(request.Email);
-        if (emailResult.IsFailure)
-            return emailResult.Error;
+        var email = Email.Create(request.Email).Value;
+       
+        var description = Description.Create(request.Description).Value;
 
-        var descriptionResult = Description.Create(request.Description);
-        if (descriptionResult.IsFailure)
-            return descriptionResult.Error;
+        var expirienceYears = ExsperienceYears.Create(request.ExperienceYears).Value;
 
-        var expirienceYearsResult = ExsperienceYears.Create(request.ExperienceYears);
-        if (expirienceYearsResult.IsFailure)
-            return expirienceYearsResult.Error;
-
-        var volunteer = await _volunteersRepository.GetByNumber(phoneNumberResult.Value);
+        var volunteer = await _volunteersRepository.GetByNumber(phoneNumber);
 
         if (volunteer.IsSuccess)
             return Errors.General.AlreadyExist();
@@ -52,11 +44,11 @@ public class CreateVolunteerHandler
 
         var volunteerToCreate = new Domain.AnimalManagement.AggregateRoot.Volunteer(
             volunteerId,
-            fullNameResult.Value,
-            phoneNumberResult.Value,
-            emailResult.Value,
-            descriptionResult.Value,
-            expirienceYearsResult.Value);
+            fullName,
+            phoneNumber,
+            email,
+            description,
+            expirienceYears);
 
         await _volunteersRepository.Add(volunteerToCreate, cancellationToken);
 

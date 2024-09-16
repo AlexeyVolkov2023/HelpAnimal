@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using FluentValidation.Results;
 using HelpAnimal.API.Responce;
 using HelpAnimal.Domain.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -18,34 +19,33 @@ public static class ResponceExtensions
             _ => StatusCodes.Status500InternalServerError
         };
 
-        var envelope = Envelope.Error(error);
-        
-        return new ObjectResult(envelope)
-        {
-            StatusCode = statusCode
-        };
-    } 
-     public static ActionResult<T> ToResponce<T>(this Result<T, Error> result)
-     {
-         if (result.IsSuccess)
-             return new OkObjectResult(result.Value);
-         
-        var statusCode = result.Error.Type switch
-        {
-            ErrorType.Validation => StatusCodes.Status400BadRequest,
-            ErrorType.NotFound => StatusCodes.Status404NotFound,
-            ErrorType.Failure => StatusCodes.Status500InternalServerError,
-            ErrorType.Conflict => StatusCodes.Status409Conflict,
-            _ => StatusCodes.Status500InternalServerError
-        };
+        var responceError = new ResponceError(error.Code, error.Message, null);
 
-        var envelope = Envelope.Error(result.Error);
-        
+        var envelope = Envelope.Error([responceError]);
+
         return new ObjectResult(envelope)
         {
             StatusCode = statusCode
         };
-    } 
-    
-   
+    }
+
+    public static ActionResult ToValidationErrorResponce(this ValidationResult result)
+    {
+        if (result.IsValid)
+            throw new InvalidOperationException("Result can not be succed");
+
+        var validationErrors = result.Errors;
+
+        var responceErrors = from validationError in validationErrors
+            let errorMessage = validationError.ErrorMessage
+            let error = Error.Deserialize(errorMessage)
+            select new ResponceError(error.Code, error.Message, validationError.PropertyName);
+
+        var envelope = Envelope.Error(responceErrors);
+
+        return new ObjectResult(envelope)
+        {
+            StatusCode = StatusCodes.Status400BadRequest
+        };
+    }
 }

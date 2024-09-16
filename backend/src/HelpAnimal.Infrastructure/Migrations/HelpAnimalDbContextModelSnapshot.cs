@@ -292,9 +292,11 @@ namespace HelpAnimal.Infrastructura.Migrations
                             b1.Navigation("Networks");
                         });
 
-                    b.Navigation("RequisiteCollection");
+                    b.Navigation("RequisiteCollection")
+                        .IsRequired();
 
-                    b.Navigation("SocialNetworks");
+                    b.Navigation("SocialNetworks")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.AnimalManagement.Entities.Animal", b =>
@@ -505,7 +507,7 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                             b1.ToTable("animals");
 
-                            b1.ToJson("identifier");
+                            b1.ToJson("identifier_animal");
 
                             b1.WithOwner()
                                 .HasForeignKey("AnimalId")
@@ -523,7 +525,7 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                                     b2.ToTable("animals");
 
-                                    b2.ToJson("identifier");
+                                    b2.ToJson("identifier_animal");
 
                                     b2.WithOwner()
                                         .HasForeignKey("IdentifierAnimalAnimalId")

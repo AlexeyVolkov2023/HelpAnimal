@@ -43,7 +43,7 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.ComplexProperty(v => v.Email, eb =>
         {
             eb.IsRequired();
-            eb.Property(p => p.Value);
+            eb.Property(e => e.Value);
         });
 
         builder.ComplexProperty(v => v.Description, db =>
@@ -56,32 +56,32 @@ public class VolunteerConfiguration : IEntityTypeConfiguration<Volunteer>
         builder.ComplexProperty(v => v.Experience, eb =>
         {
             eb.IsRequired();
-            eb.Property(d => d.ExperienceYears)
+            eb.Property(e => e.ExperienceYears)
                 .HasMaxLength(Constants.MAX_EXPERIENCE_YEARS);
         });
 
 
-        builder.OwnsOne(a => a.SocialNetworks, a =>
+        builder.OwnsOne(v => v.SocialNetworks, sb =>
         {
-            a.ToJson("social_networks");
-            a.OwnsMany(e => e.Networks, d =>
+            sb.ToJson("social_networks");
+            sb.OwnsMany(sd => sd.Networks, nb =>
             {
-                d.Property(r => r.Network)
+                nb.Property(s => s.Network)
                     .IsRequired();
-                d.Property(r => r.Link)
+                nb.Property(s => s.Link)
                     .IsRequired();
             });
         });
 
-        builder.OwnsOne(a => a.RequisiteCollection, a =>
+        builder.OwnsOne(v => v.RequisiteCollection, rcb =>
         {
-            a.ToJson("requisite_collection");
-            a.OwnsMany(e => e.Requisites, d =>
+            rcb.ToJson("requisite_collection");
+            rcb.OwnsMany(rd => rd.Requisites, rb =>
             {
-                d.Property(r => r.Title)
+                rb.Property(r => r.Title)
                     .IsRequired()
                     .HasMaxLength(Constants.LOW_TEXT_LENGTH);
-                d.Property(r => r.Description)
+                rb.Property(r => r.Description)
                     .IsRequired()
                     .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
             });

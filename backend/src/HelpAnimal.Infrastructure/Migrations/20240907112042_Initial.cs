@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HelpAnimal.Infrastructura.Migrations
 {
     /// <inheritdoc />
-    public partial class CorrectionResult : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,8 +35,8 @@ namespace HelpAnimal.Infrastructura.Migrations
                     full_name_patronymic = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     full_name_surname = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
-                    requisite_collection = table.Column<string>(type: "jsonb", nullable: true),
-                    social_networks = table.Column<string>(type: "jsonb", nullable: true)
+                    requisite_collection = table.Column<string>(type: "jsonb", nullable: false),
+                    social_networks = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +69,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    animals_birthday_birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    birthday_birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     status_value = table.Column<string>(type: "text", nullable: false),
                     already_vaccination = table.Column<string>(type: "jsonb", nullable: true),
@@ -77,7 +77,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                     animal_information = table.Column<string>(type: "jsonb", nullable: false),
                     animal_photos = table.Column<string>(type: "jsonb", nullable: true),
                     animal_profile = table.Column<string>(type: "jsonb", nullable: false),
-                    identifier = table.Column<string>(type: "jsonb", nullable: true),
+                    identifier_animal = table.Column<string>(type: "jsonb", nullable: true),
                     requisite_collection = table.Column<string>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>

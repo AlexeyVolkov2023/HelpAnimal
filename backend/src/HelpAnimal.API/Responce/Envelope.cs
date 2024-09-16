@@ -2,25 +2,25 @@ using HelpAnimal.Domain.Shared;
 
 namespace HelpAnimal.API.Responce;
 
+public record ResponceError(string? ErrorCode, string? ErrorMessage, string? InvalidField);
+
 public record Envelope
 {
     public object? Result { get; }
-    public string? Code { get; }
-    public string? Message { get; }
+    public List<ResponceError> Errors { get; }
     public DateTime TimeGenerated { get; }
 
-    private Envelope(object? result,Error? error)
+    private Envelope(object? result,IEnumerable<ResponceError>? errors)
     {
         Result = result;
-        Code = error?.Code;
-        Message = error?.Message;
+        Errors = errors.ToList();
         TimeGenerated = DateTime.Now;
     }
 
     public static Envelope Ok(object? result  = null) =>
-        new (result, null); 
+        new (result, []); 
     
-    public static Envelope Error(Error error) =>
-        new (null, error);
+    public static Envelope Error(IEnumerable<ResponceError> errors) =>
+        new (null, errors);
     
 }
