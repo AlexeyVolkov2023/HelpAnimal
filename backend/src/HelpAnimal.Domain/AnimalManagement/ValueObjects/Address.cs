@@ -1,5 +1,6 @@
 ﻿
 using CSharpFunctionalExtensions;
+using HelpAnimal.Domain.Shared;
 
 namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
@@ -23,25 +24,25 @@ public record Address
     public int NumberHome { get; }
 
 
-    public static Result<Address> Create(
+    public static Result<Address, Error> Create(
                                         string country,
                                         string city,
                                         string street,
                                         int numberHome)
     {
         if (string.IsNullOrWhiteSpace(country))
-            return Result.Failure<Address>("Country cannot be null or empty.");
+            return Errors.General.ValueIsInvalid("Country");
         
         if (string.IsNullOrWhiteSpace(city))
-            return Result.Failure<Address>("City cannot be null or empty.");
+            return Errors.General.ValueIsInvalid("City");
         
         if (string.IsNullOrWhiteSpace(street))
-            return Result.Failure<Address>("Street cannot be null or empty.");
+            return Errors.General.ValueIsInvalid("Street");
         
         if (numberHome <= 0)
-            return Result.Failure<Address>( "NumberHome must be a positive integer.");
+            return Errors.General.ValueIsInvalid( "NumberHome");
 
-        return Result.Success(new Address(country, city, street, numberHome));
+        return new Address(country, city, street, numberHome);
         
     }
 }

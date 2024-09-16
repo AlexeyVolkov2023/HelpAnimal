@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using HelpAnimal.Domain.Shared;
 
 namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
@@ -13,15 +14,14 @@ public record AnimalPhoto
     public string StoragePath { get; } 
     public bool IsMain { get; }
 
-    public static Result<AnimalPhoto> Create(string storagePath, bool isMain)
+    public static Result<AnimalPhoto, Error> Create(string storagePath, bool isMain)
     {
         if (string.IsNullOrWhiteSpace(storagePath))
         {
-            return Result.Failure<AnimalPhoto>
-                ("Storage path cannot be empty or whitespace.");
+            return Errors.General.ValueIsInvalid("Storage path");
         }
 
-        return Result.Success(new  AnimalPhoto(storagePath, isMain));
+        return new  AnimalPhoto(storagePath, isMain);
        
     }
 }

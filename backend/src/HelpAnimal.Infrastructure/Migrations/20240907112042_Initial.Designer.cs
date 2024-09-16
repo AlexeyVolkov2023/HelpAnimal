@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HelpAnimal.Infrastructura.Migrations
 {
     [DbContext(typeof(HelpAnimalDbContext))]
-    [Migration("20240906165026_EmailCreate")]
-    partial class EmailCreate
+    [Migration("20240907112042_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,13 +113,18 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date_of_birth");
-
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
                         .HasColumnName("volunteer_id");
+
+                    b.ComplexProperty<Dictionary<string, object>>("Birthday", "HelpAnimal.Domain.AnimalManagement.Entities.Animal.Birthday#AnimalsBirthday", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<DateTime>("Birthday")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("birthday_birthday");
+                        });
 
                     b.ComplexProperty<Dictionary<string, object>>("Phone", "HelpAnimal.Domain.AnimalManagement.Entities.Animal.Phone#PhoneNumber", b1 =>
                         {
@@ -272,7 +277,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                                         .IsRequired()
                                         .HasColumnType("text");
 
-                                    b2.Property<string>("Title")
+                                    b2.Property<string>("Network")
                                         .IsRequired()
                                         .HasColumnType("text");
 
@@ -290,9 +295,11 @@ namespace HelpAnimal.Infrastructura.Migrations
                             b1.Navigation("Networks");
                         });
 
-                    b.Navigation("RequisiteCollection");
+                    b.Navigation("RequisiteCollection")
+                        .IsRequired();
 
-                    b.Navigation("SocialNetworks");
+                    b.Navigation("SocialNetworks")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("HelpAnimal.Domain.AnimalManagement.Entities.Animal", b =>
@@ -503,7 +510,7 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                             b1.ToTable("animals");
 
-                            b1.ToJson("identifier");
+                            b1.ToJson("identifier_animal");
 
                             b1.WithOwner()
                                 .HasForeignKey("AnimalId")
@@ -521,7 +528,7 @@ namespace HelpAnimal.Infrastructura.Migrations
 
                                     b2.ToTable("animals");
 
-                                    b2.ToJson("identifier");
+                                    b2.ToJson("identifier_animal");
 
                                     b2.WithOwner()
                                         .HasForeignKey("IdentifierAnimalAnimalId")

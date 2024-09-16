@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using HelpAnimal.Domain.Shared;
 
 namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
@@ -24,7 +25,7 @@ public record AnimalInformation
     public double Height { get; }
     public bool IsNeutered { get; }
 
-    public static Result<AnimalInformation> Create(
+    public static Result<AnimalInformation, Error> Create(
         string color,
         string healthInfo,
         double weight,
@@ -34,24 +35,24 @@ public record AnimalInformation
     {
         if (string.IsNullOrWhiteSpace(color))
         {
-            return Result.Failure<AnimalInformation>("Color cannot be empty.");
+            return Errors.General.ValueIsInvalid("Color");
         }
 
         if (string.IsNullOrWhiteSpace(healthInfo))
         {
-            return Result.Failure<AnimalInformation>("Health information cannot be empty.");
+            return Errors.General.ValueIsInvalid("Health");
         }
 
         if (weight <= 0)
         {
-            return Result.Failure<AnimalInformation>("Weight must be greater than zero.");
+            return Errors.General.ValueIsInvalid("Weight");
         }
 
         if (height <= 0)
         {
-            return Result.Failure<AnimalInformation>("Height must be greater than zero.");
+            return Errors.General.ValueIsInvalid("Height");
         }
 
-        return Result.Success(new AnimalInformation(color, healthInfo, weight, height, isNeutered));
+        return new AnimalInformation(color, healthInfo, weight, height, isNeutered);
     }
 }

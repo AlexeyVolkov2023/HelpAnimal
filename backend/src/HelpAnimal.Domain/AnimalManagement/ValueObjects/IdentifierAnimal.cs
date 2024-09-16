@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using HelpAnimal.Domain.Shared;
 using HelpAnimal.Domain.SpeciesManagement.ID;
 
 namespace HelpAnimal.Domain.AnimalManagement.ValueObjects;
@@ -19,8 +20,8 @@ public record IdentifierAnimal
     public Guid BreedGuid { get; }
 
 
-    public static Result<IdentifierAnimal> Create(SpeciesId species, Guid breed)
+    public static Result<IdentifierAnimal, Error> Create(SpeciesId species, Guid breed)
     {
-        return Result.Success(new IdentifierAnimal(species, breed));
+        return new IdentifierAnimal(species, breed);
     }
 }

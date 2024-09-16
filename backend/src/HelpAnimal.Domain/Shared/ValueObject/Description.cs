@@ -20,4 +20,15 @@ public record Description
 
         return new Description(value);
     }
+    
+    public static Result<Description, Error> Update(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value)
+            || value.Length > Constants.HIGH_TEXT_LENGTH)
+        {
+            return Errors.General.ValueIsInvalid("Description");
+        }
+
+        return new Description(value);
+    }
 }
