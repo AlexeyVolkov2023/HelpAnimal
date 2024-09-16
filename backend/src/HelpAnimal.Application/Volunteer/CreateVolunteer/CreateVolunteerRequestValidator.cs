@@ -10,7 +10,7 @@ public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteer
 {
     public CreateVolunteerRequestValidator()
     {
-        RuleFor(c => c.FullNameDTO).SetValidator(new CreateFullNameDTOValidator());
+        RuleFor(c => c.FullNameFto).SetValidator(new CreateFullNameFtoValidator());
         RuleFor(c => c.Number).MustBeValueObject(PhoneNumber.Create);
         RuleFor(c => c.Email).MustBeValueObject(Email.Create);
         RuleFor(c => c.Description).MustBeValueObject(Description.Create);

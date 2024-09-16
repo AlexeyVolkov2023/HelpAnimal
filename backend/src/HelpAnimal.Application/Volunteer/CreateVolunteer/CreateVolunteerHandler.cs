@@ -23,9 +23,9 @@ public class CreateVolunteerHandler
         CancellationToken cancellationToken = default)
     {
         var fullName = FullName.Create(
-            request.FullNameDTO.Name,
-            request.FullNameDTO.Surname,
-            request.FullNameDTO.Patronymik!).Value;
+            request.FullNameFto.Name,
+            request.FullNameFto.Surname,
+            request.FullNameFto.Patronymik!).Value;
 
         var phoneNumber = PhoneNumber.Create(request.Number).Value;
 

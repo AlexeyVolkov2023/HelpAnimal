@@ -3,7 +3,7 @@
 namespace HelpAnimal.Application.Volunteer.CreateVolunteer;
 
 public record CreateVolunteerRequest(
-    CreateFullNameDTO FullNameDTO,
+    CreateFullNameFto FullNameFto,
     string Number,
     string Email,
     string Description,

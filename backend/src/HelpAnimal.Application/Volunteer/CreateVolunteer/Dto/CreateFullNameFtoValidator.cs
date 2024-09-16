@@ -4,9 +4,9 @@ using HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
 namespace HelpAnimal.Application.Volunteer.CreateVolunteer.DTO;
 
-public class CreateFullNameDTOValidator : AbstractValidator<CreateFullNameDTO>
+public class CreateFullNameFtoValidator : AbstractValidator<CreateFullNameFto>
 {
-    public CreateFullNameDTOValidator()
+    public CreateFullNameFtoValidator()
     {
         RuleFor(c => new { c.Name, c.Surname, c.Patronymik })
             .MustBeValueObject(x =>
