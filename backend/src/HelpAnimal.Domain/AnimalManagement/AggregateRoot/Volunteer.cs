@@ -46,7 +46,9 @@ public class Volunteer : Shared.Entity<VolunteerId>
         PhoneNumber phoneNumber,
         Email email,
         Description description,
-        ExsperienceYears experience)
+        ExsperienceYears experience,
+        SocialDetails socialNetworks,
+        RequisiteDetails requisiteCollection)
 
     {
         return new Volunteer(

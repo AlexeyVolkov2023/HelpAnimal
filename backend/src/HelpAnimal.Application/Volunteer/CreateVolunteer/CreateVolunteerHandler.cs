@@ -1,10 +1,9 @@
-using System.ComponentModel.DataAnnotations;
 using CSharpFunctionalExtensions;
-using FluentValidation;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects.ID;
 using HelpAnimal.Domain.Shared;
 using HelpAnimal.Domain.Shared.ValueObject;
+using Microsoft.Extensions.Logging;
 
 
 namespace HelpAnimal.Application.Volunteer.CreateVolunteer;
@@ -12,10 +11,14 @@ namespace HelpAnimal.Application.Volunteer.CreateVolunteer;
 public class CreateVolunteerHandler
 {
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly ILogger<CreateVolunteerHandler> _logger;
 
-    public CreateVolunteerHandler(IVolunteersRepository volunteersRepository)
+    public CreateVolunteerHandler(
+        IVolunteersRepository volunteersRepository,
+        ILogger<CreateVolunteerHandler> logger)
     {
         _volunteersRepository = volunteersRepository;
+        _logger = logger;
     }
 
     public async Task<Result<Guid, Error>> Handle(
@@ -34,7 +37,7 @@ public class CreateVolunteerHandler
         var description = Description.Create(request.Description).Value;
 
         var expirienceYears = ExsperienceYears.Create(request.ExperienceYears).Value;
-
+        
         var volunteer = await _volunteersRepository.GetByNumber(phoneNumber);
 
         if (volunteer.IsSuccess)
@@ -51,6 +54,8 @@ public class CreateVolunteerHandler
             expirienceYears);
 
         await _volunteersRepository.Add(volunteerToCreate, cancellationToken);
+        
+        _logger.LogInformation("Created volunteer with Id {volunteerId}", volunteerId);
 
         return (Guid)volunteerToCreate.Id;
     }
