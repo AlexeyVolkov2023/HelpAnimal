@@ -15,6 +15,8 @@ public record Envelope
         Result = result;
         Errors = errors.ToList();
         TimeGenerated = DateTime.Now;
+        
+        
     }
 
     public static Envelope Ok(object? result  = null) =>
