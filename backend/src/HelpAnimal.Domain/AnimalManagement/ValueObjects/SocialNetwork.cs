@@ -28,10 +28,10 @@ public record SocialNetwork
             return Errors.General.ValueIsInvalid("Link");
         }
         
-        if (!Regex.IsMatch(link, REGEX_FOR_URL))
-        {
-            return Errors.General.ValueIsInvalid("Link");
-        }
+        // if (!Regex.IsMatch(link, REGEX_FOR_URL))
+        // {
+        //     return Errors.General.ValueIsInvalid("Link");
+        // }
 
         return new SocialNetwork(network, link);
     }

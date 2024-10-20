@@ -2,7 +2,7 @@ using FluentValidation;
 using HelpAnimal.Application.Validation;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects;
 
-namespace HelpAnimal.Application.Volunteer.CreateVolunteer.DTO;
+namespace HelpAnimal.Application.Volunteer.Create.Dto;
 
 public class CreateFullNameFtoValidator : AbstractValidator<CreateFullNameFto>
 {

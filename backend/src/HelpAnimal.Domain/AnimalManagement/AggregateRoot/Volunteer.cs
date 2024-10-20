@@ -21,13 +21,17 @@ public class Volunteer : Shared.Entity<VolunteerId>
         PhoneNumber phone,
         Email email,
         Description description,
-        ExsperienceYears experience) : base(id)
+        ExsperienceYears experience,
+        SocialDetails socialNetworks,
+        RequisiteDetails requisiteCollection) : base(id)
     {
         FullName = fullName;
         Phone = phone;
         Email = email;
         Description = description;
         Experience = experience;
+        SocialNetworks = socialNetworks;
+        RequisiteCollection = requisiteCollection;
     }
 
 
@@ -38,7 +42,7 @@ public class Volunteer : Shared.Entity<VolunteerId>
     public ExsperienceYears Experience { get; private set; }
     public SocialDetails SocialNetworks { get; private set; }
     public RequisiteDetails RequisiteCollection { get; private set; }
-    public IReadOnlyList<Animal> Animals { get; private set; }
+    public IReadOnlyList<Animal> Animals => _animals;
 
     public static Result<Volunteer, Error> Create(
         VolunteerId id,
@@ -57,7 +61,19 @@ public class Volunteer : Shared.Entity<VolunteerId>
             phoneNumber,
             email,
             description,
-            experience);
+            experience,
+            socialNetworks,
+            requisiteCollection);
+    }
+    
+    public void UpdateSocialNetworks(SocialDetails newSocialNetworks)
+    {
+        SocialNetworks = newSocialNetworks;
+    }
+
+   public void UpdateRequisiteCollection(RequisiteDetails newRequisiteCollection)
+    {
+        RequisiteCollection = newRequisiteCollection;
     }
 
     public UnitResult<Error> AddAnimals(IEnumerable<Animal> animals)

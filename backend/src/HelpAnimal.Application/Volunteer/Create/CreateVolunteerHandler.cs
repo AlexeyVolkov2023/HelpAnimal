@@ -5,8 +5,7 @@ using HelpAnimal.Domain.Shared;
 using HelpAnimal.Domain.Shared.ValueObject;
 using Microsoft.Extensions.Logging;
 
-
-namespace HelpAnimal.Application.Volunteer.CreateVolunteer;
+namespace HelpAnimal.Application.Volunteer.Create;
 
 public class CreateVolunteerHandler
 {
@@ -37,6 +36,14 @@ public class CreateVolunteerHandler
         var description = Description.Create(request.Description).Value;
 
         var expirienceYears = ExsperienceYears.Create(request.ExperienceYears).Value;
+
+        var requisites = new RequisiteDetails
+        (request.Requisites.Select
+            (r => Requisite.Create(r.Title, r.Description).Value));
+        
+        var networks = new SocialDetails
+        (request.Networks.Select
+            (r => SocialNetwork.Create(r.Network, r.Link).Value));
         
         var volunteer = await _volunteersRepository.GetByNumber(phoneNumber);
 
@@ -51,7 +58,9 @@ public class CreateVolunteerHandler
             phoneNumber,
             email,
             description,
-            expirienceYears);
+            expirienceYears,
+            networks,
+            requisites);
 
         await _volunteersRepository.Add(volunteerToCreate, cancellationToken);
         
