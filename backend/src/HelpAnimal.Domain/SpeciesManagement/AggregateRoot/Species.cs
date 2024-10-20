@@ -11,17 +11,19 @@ public class Species : Shared.Entity<SpeciesId>
     private Species(SpeciesId id) : base(id)
     {
     }
-    private Species(string title, SpeciesId id, List<Breed> breeds) : base(id)
+    private Species(string title, SpeciesId id) : base(id)
     {
         Title = title;
-        Breeds = breeds;
     }
 
-    public string Title { get;  } 
-    public List<Breed>? Breeds { get;  } = []; 
+    public string Title { get; private set; }
+    public IReadOnlyList<Breed>? Breeds => _breeds;
+
+    private readonly List<Breed> _breeds;
+    
 
     
-    public static Result<Species> Create(string title, SpeciesId id, List<Breed> breeds)
+    public static Result<Species> Create(string title, SpeciesId id)
     {
         if (string.IsNullOrWhiteSpace(title) || title.Length > MAX_TITLE_SPECIES_LENGTH)
         {
@@ -30,6 +32,6 @@ public class Species : Shared.Entity<SpeciesId>
                 $" be more than {MAX_TITLE_SPECIES_LENGTH}");
         }
         
-        return Result.Success(new Species(title,id, breeds));
+        return Result.Success(new Species(title,id));
     }
 }
