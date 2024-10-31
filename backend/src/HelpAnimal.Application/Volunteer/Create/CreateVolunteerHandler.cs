@@ -29,7 +29,7 @@ public class CreateVolunteerHandler
             request.FullNameFto.Surname,
             request.FullNameFto.Patronymik!).Value;
 
-        var phoneNumber = PhoneNumber.Create(request.Number).Value;
+        var phoneNumber = PhoneNumber.Create(request.Phone).Value;
 
         var email = Email.Create(request.Email).Value;
        

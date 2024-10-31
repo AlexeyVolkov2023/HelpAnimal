@@ -28,13 +28,36 @@ public class VolunteersRepository : IVolunteersRepository
         return volunteer.Id;
     }
 
+    public async Task<Guid> Save(
+        Volunteer volunteer,
+        CancellationToken cancellationToken = default)
+    {
+        _dbContext.Volunteers.Attach(volunteer);
+        
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        return volunteer.Id;
+    }
+
+    public async Task<Guid> Delete(Volunteer volunteer, CancellationToken cancellationToken = default)
+    {
+        _dbContext.Volunteers.Remove(volunteer);
+        
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        return volunteer.Id;
+    }
+
+
     public async Task<Result<Volunteer, Error>> GetById(
         VolunteerId volunteerId,
         CancellationToken cancellationToken = default)
     {
         var volunteer = await _dbContext.Volunteers
             .Include(v => v.Animals)
-            .FirstOrDefaultAsync(v => v.Id == volunteerId);
+            .FirstOrDefaultAsync(v => v.Id == volunteerId, cancellationToken);
+
+        var entries1 = _dbContext.ChangeTracker.Entries<Volunteer>();
 
         if (volunteer is null)
             return Errors.General.NotFound(volunteerId);
@@ -48,7 +71,7 @@ public class VolunteersRepository : IVolunteersRepository
     {
         var volunteer = await _dbContext.Volunteers
             .Include(v => v.Animals)
-            .FirstOrDefaultAsync(v => v.Phone == number);
+            .FirstOrDefaultAsync(v => v.Phone == number, cancellationToken);
 
         if (volunteer is null)
             return Errors.General.NotFound();

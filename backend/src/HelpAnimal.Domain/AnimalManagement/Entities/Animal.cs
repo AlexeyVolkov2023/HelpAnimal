@@ -1,4 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
+using HelpAnimal.Domain.AnimalManagement.AggregateRoot;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects.ID;
 using HelpAnimal.Domain.Shared;
@@ -6,8 +7,10 @@ using HelpAnimal.Domain.Shared.ValueObject;
 
 namespace HelpAnimal.Domain.AnimalManagement.Entities;
 
-public class Animal : Shared.Entity<AnimalId>
+public class Animal : Shared.Entity<AnimalId> , ISoftDeletable
 {
+    private bool _isDeleted = false;
+    
     private Animal(AnimalId id) : base(id)
     {
     }
@@ -77,5 +80,17 @@ public class Animal : Shared.Entity<AnimalId>
             status,
             requisites,
             animalPhotos);
+    }
+    
+    public void Delete()
+    {
+        if (_isDeleted == false)
+            _isDeleted = true;
+    }
+
+    public void Restore()
+    {
+        if (_isDeleted)
+            _isDeleted = false;
     }
 }

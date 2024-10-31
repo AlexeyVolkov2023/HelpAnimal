@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HelpAnimal.Infrastructura.Migrations
 {
     [DbContext(typeof(HelpAnimalDbContext))]
-    [Migration("20241006164549_Initia1l")]
-    partial class Initia1l
+    [Migration("20241030160329_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,10 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("Description", "HelpAnimal.Domain.AnimalManagement.AggregateRoot.Volunteer.Description#Description", b1 =>
                         {
@@ -112,6 +116,10 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
@@ -226,12 +234,12 @@ namespace HelpAnimal.Infrastructura.Migrations
                                         .HasColumnType("integer");
 
                                     b2.Property<string>("Description")
-                                        
+                                        .IsRequired()
                                         .HasMaxLength(2000)
                                         .HasColumnType("character varying(2000)");
 
                                     b2.Property<string>("Title")
-                                        
+                                        .IsRequired()
                                         .HasMaxLength(100)
                                         .HasColumnType("character varying(100)");
 
@@ -274,11 +282,11 @@ namespace HelpAnimal.Infrastructura.Migrations
                                         .HasColumnType("integer");
 
                                     b2.Property<string>("Link")
-                                        
+                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.Property<string>("Network")
-                                        
+                                        .IsRequired()
                                         .HasColumnType("text");
 
                                     b2.HasKey("SocialDetailsVolunteerId", "Id");
@@ -295,7 +303,8 @@ namespace HelpAnimal.Infrastructura.Migrations
                             b1.Navigation("Networks");
                         });
 
-                    b.Navigation("RequisiteCollection");
+                    b.Navigation("RequisiteCollection")
+                        .IsRequired();
 
                     b.Navigation("SocialNetworks")
                         .IsRequired();
@@ -306,6 +315,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.HasOne("HelpAnimal.Domain.AnimalManagement.AggregateRoot.Volunteer", null)
                         .WithMany("Animals")
                         .HasForeignKey("volunteer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_animals_volunteers_volunteer_id");
 
                     b.OwnsOne("HelpAnimal.Domain.Shared.ValueObject.RequisiteDetails", "RequisiteCollection", b1 =>

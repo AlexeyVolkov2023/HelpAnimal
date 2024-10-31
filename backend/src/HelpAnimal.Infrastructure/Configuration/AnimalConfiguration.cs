@@ -134,5 +134,9 @@ public class AnimalConfiguration : IEntityTypeConfiguration<Animal>
                     .HasMaxLength(Constants.HIGH_TEXT_LENGTH);
             });
         });
+        
+        builder.Property<bool>("_isDeleted")
+            .UsePropertyAccessMode(PropertyAccessMode.Field)
+            .HasColumnName("is_deleted");
     }
 }

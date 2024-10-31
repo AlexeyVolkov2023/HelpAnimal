@@ -1,4 +1,4 @@
-namespace HelpAnimal.Application.Volunteer.Create.Dto;
+namespace HelpAnimal.Application.Volunteer.Dto;
 
 public record CreateFullNameFto(
     string Name,

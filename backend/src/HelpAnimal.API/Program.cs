@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
 using HelpAnimal.API;
+using HelpAnimal.API.Extensions;
 using HelpAnimal.API.Middlewares;
 using HelpAnimal.API.Validation;
 using HelpAnimal.Application;

@@ -7,9 +7,10 @@ using HelpAnimal.Domain.Shared.ValueObject;
 
 namespace HelpAnimal.Domain.AnimalManagement.AggregateRoot;
 
-public class Volunteer : Shared.Entity<VolunteerId>
+public class Volunteer : Shared.Entity<VolunteerId> , ISoftDeletable
 {
     private readonly List<Animal> _animals = [];
+    private bool _isDeleted = false;
 
     private Volunteer(VolunteerId id) : base(id)
     {
@@ -65,16 +66,6 @@ public class Volunteer : Shared.Entity<VolunteerId>
             socialNetworks,
             requisiteCollection);
     }
-    
-    public void UpdateSocialNetworks(SocialDetails newSocialNetworks)
-    {
-        SocialNetworks = newSocialNetworks;
-    }
-
-   public void UpdateRequisiteCollection(RequisiteDetails newRequisiteCollection)
-    {
-        RequisiteCollection = newRequisiteCollection;
-    }
 
     public UnitResult<Error> AddAnimals(IEnumerable<Animal> animals)
     {
@@ -87,5 +78,39 @@ public class Volunteer : Shared.Entity<VolunteerId>
     {
         return _animals.Count(a => a.Status == status); 
     }
+
+    public void UpdateMainInfo(
+        PhoneNumber phone,
+        Description description,
+        Email email,
+        ExsperienceYears experienceYears)
+    {
+        Phone = phone;
+        Description = description;
+        Email = email;
+        Experience = experienceYears;
+    }
+    public void UpdateSocialNetworks(SocialDetails newSocialNetworks)
+    {
+        SocialNetworks = newSocialNetworks;
+    }
+
+    public void UpdateRequisiteCollection(RequisiteDetails newRequisiteCollection)
+    {
+        RequisiteCollection = newRequisiteCollection;
+    }
+
+    public void Delete()
+    {
+        if (_isDeleted == false)
+            _isDeleted = true;
+    }
+
+    public void Restore()
+    {
+        if (_isDeleted)
+            _isDeleted = false;
+    }
+    
   
 }

@@ -28,6 +28,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     description_value = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
                     email_value = table.Column<string>(type: "text", nullable: false),
                     experience_experience_years = table.Column<int>(type: "integer", maxLength: 60, nullable: false),
@@ -68,6 +69,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     birthday_birthday = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     phone_number = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
@@ -87,7 +89,8 @@ namespace HelpAnimal.Infrastructura.Migrations
                         name: "fk_animals_volunteers_volunteer_id",
                         column: x => x.volunteer_id,
                         principalTable: "volunteers",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

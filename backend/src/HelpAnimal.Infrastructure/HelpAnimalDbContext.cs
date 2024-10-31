@@ -1,5 +1,6 @@
 ﻿using HelpAnimal.Domain.AnimalManagement.AggregateRoot;
 using HelpAnimal.Domain.SpeciesManagement.AggregateRoot;
+using HelpAnimal.Infrastructura.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -18,7 +19,9 @@ public class HelpAnimalDbContext(IConfiguration configuration) : DbContext
     {
         optionsBuilder.UseNpgsql(configuration.GetConnectionString(ALEX));
         optionsBuilder.UseSnakeCaseNamingConvention();
+        optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
+        optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

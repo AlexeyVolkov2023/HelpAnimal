@@ -1,7 +1,7 @@
 using HelpAnimal.Infrastructura;
 using Microsoft.EntityFrameworkCore;
 
-namespace HelpAnimal.API;
+namespace HelpAnimal.API.Extensions;
 
 public static class AppExtensions
 {
