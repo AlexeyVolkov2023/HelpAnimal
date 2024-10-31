@@ -104,12 +104,21 @@ public class Volunteer : Shared.Entity<VolunteerId> , ISoftDeletable
     {
         if (_isDeleted == false)
             _isDeleted = true;
+        
+        foreach (var animal in _animals)
+        {
+            animal.Delete();
+        }
     }
 
     public void Restore()
     {
         if (_isDeleted)
             _isDeleted = false;
+        foreach (var animal in _animals)
+        {
+            animal.Restore();
+        }
     }
     
   

@@ -27,6 +27,8 @@ public class DeleteVolunteerHandler
             return volunteerResult.Error;
         }
         
+        volunteerResult.Value.Delete();
+        
         var result = await _volunteersRepository.Delete(volunteerResult.Value, cancellationToken);
         
         _logger.LogInformation("Deleted volunteer with Id {volunteerId}", request.VolunteerId);
