@@ -1,6 +1,7 @@
 using HelpAnimal.Application.Volunteer;
-using HelpAnimal.Infrastructura.Interceptors;
 using HelpAnimal.Infrastructura.Repositories;
+using HelpAnimal.Infrastructure;
+using HelpAnimal.Infrastructure.Interceptors;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace HelpAnimal.Infrastructura;

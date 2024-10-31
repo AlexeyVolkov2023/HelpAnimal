@@ -1,6 +1,6 @@
 ﻿using HelpAnimal.Domain.AnimalManagement.AggregateRoot;
 using HelpAnimal.Domain.SpeciesManagement.AggregateRoot;
-using HelpAnimal.Infrastructura.Interceptors;
+using HelpAnimal.Infrastructure.Interceptors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

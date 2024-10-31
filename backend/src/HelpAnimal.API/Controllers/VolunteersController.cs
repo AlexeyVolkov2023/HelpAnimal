@@ -4,6 +4,7 @@ using HelpAnimal.Application.Volunteer.Create;
 using HelpAnimal.Application.Volunteer.Delete;
 using HelpAnimal.Application.Volunteer.Dto;
 using HelpAnimal.Application.Volunteer.UpdateMainInfo;
+using HelpAnimal.Application.Volunteer.UpdateRequisites;
 using HelpAnimal.Application.Volunteer.UpdateSocialNetwork;
 using Microsoft.AspNetCore.Mvc;
 
@@ -100,6 +101,32 @@ public class VolunteersController : ApplicationController
 
         return Ok(result.Value);
     }
+    
+    [HttpPatch("{id:guid}/requisites")]
+    public async Task<ActionResult> Updaterequisites(
+        [FromRoute] Guid id,
+        [FromServices] UpdateRequisitesHandler handler,
+        [FromBody] UpdateRequisitesFto fto,
+        [FromServices] IValidator<UpdateRequisitesRequest> validator,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new UpdateRequisitesRequest(id, fto);
+
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (validationResult.IsValid == false)
+        {
+            return validationResult.ToValidationErrorResponce();
+        }
+
+        var result = await handler.Handle(request, cancellationToken);
+
+        if (result.IsFailure)
+            return result.Error.ToResponce();
+
+        return Ok(result.Value);
+    }
+
     
     
 }

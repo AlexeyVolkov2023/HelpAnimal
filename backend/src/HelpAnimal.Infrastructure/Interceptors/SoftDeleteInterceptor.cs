@@ -3,7 +3,7 @@ using HelpAnimal.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace HelpAnimal.Infrastructura.Interceptors;
+namespace HelpAnimal.Infrastructure.Interceptors;
 
 public class SoftDeleteInterceptor : SaveChangesInterceptor
 {
@@ -22,10 +22,9 @@ public class SoftDeleteInterceptor : SaveChangesInterceptor
         
         foreach (var entry in entries)
         {
-            entry.State = EntityState.Modified;
-
             if (entry.Entity is ISoftDeletable item)
             {
+                entry.State = EntityState.Modified;
                 item.Delete();
             }
         }

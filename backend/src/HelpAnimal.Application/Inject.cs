@@ -2,6 +2,7 @@ using FluentValidation;
 using HelpAnimal.Application.Volunteer.Create;
 using HelpAnimal.Application.Volunteer.Delete;
 using HelpAnimal.Application.Volunteer.UpdateMainInfo;
+using HelpAnimal.Application.Volunteer.UpdateRequisites;
 using HelpAnimal.Application.Volunteer.UpdateSocialNetwork;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,7 @@ public static class Inject
         collection.AddScoped<UpdateMainInfoHandler>();
         collection.AddScoped<DeleteVolunteerHandler>();
         collection.AddScoped<UpdateSocialNetworkHandler>();
+        collection.AddScoped<UpdateRequisitesHandler>();
 
         collection.AddValidatorsFromAssembly(typeof(Inject).Assembly);
 
