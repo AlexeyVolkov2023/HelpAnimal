@@ -1,6 +1,6 @@
 using FluentValidation;
 using HelpAnimal.Application.Validation;
-using HelpAnimal.Application.Volunteer.Create.Dto;
+using HelpAnimal.Application.Volunteer.Dto;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects;
 using HelpAnimal.Domain.Shared.ValueObject;
 
@@ -13,7 +13,7 @@ public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteer
     {
         RuleFor(c => c.FullNameFto)
             .SetValidator(new CreateFullNameFtoValidator());
-        RuleFor(c => c.Number)
+        RuleFor(c => c.Phone)
             .MustBeValueObject(PhoneNumber.Create);
         RuleFor(c => c.Email)
             .MustBeValueObject(Email.Create);

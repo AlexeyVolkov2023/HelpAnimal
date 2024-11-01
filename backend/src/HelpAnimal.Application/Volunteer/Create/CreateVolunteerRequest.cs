@@ -1,14 +1,14 @@
 ﻿using FluentValidation;
-using HelpAnimal.Application.Volunteer.Create.Dto;
+using HelpAnimal.Application.Volunteer.Dto;
 
 namespace HelpAnimal.Application.Volunteer.Create;
 
 public record CreateVolunteerRequest(
     CreateFullNameFto FullNameFto,
-    string Number,
+    string Phone,
     string Email,
     string Description,
     int ExperienceYears,
-    IEnumerable<CreateRequisiteFto> Requisites,
-    IEnumerable<CreateSocialNetworkFto> Networks);
+    IEnumerable<RequisiteFto> Requisites,
+    IEnumerable<SocialNetworkFto> Networks);
     

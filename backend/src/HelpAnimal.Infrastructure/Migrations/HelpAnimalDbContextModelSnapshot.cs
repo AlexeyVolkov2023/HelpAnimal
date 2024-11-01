@@ -29,6 +29,10 @@ namespace HelpAnimal.Infrastructura.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.ComplexProperty<Dictionary<string, object>>("Description", "HelpAnimal.Domain.AnimalManagement.AggregateRoot.Volunteer.Description#Description", b1 =>
                         {
                             b1.IsRequired();
@@ -109,6 +113,10 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<bool>("_isDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
@@ -304,6 +312,7 @@ namespace HelpAnimal.Infrastructura.Migrations
                     b.HasOne("HelpAnimal.Domain.AnimalManagement.AggregateRoot.Volunteer", null)
                         .WithMany("Animals")
                         .HasForeignKey("volunteer_id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("fk_animals_volunteers_volunteer_id");
 
                     b.OwnsOne("HelpAnimal.Domain.Shared.ValueObject.RequisiteDetails", "RequisiteCollection", b1 =>
