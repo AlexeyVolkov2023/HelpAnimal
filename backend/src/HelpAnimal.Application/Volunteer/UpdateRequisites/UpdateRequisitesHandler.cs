@@ -37,7 +37,7 @@ public class UpdateRequisitesHandler
 
         var result = await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
         
-        _logger.LogInformation("Updated volunteer with Id {volunteerId}", request.VolunteerId);
+        _logger.LogInformation("Updated requisite for volunteer with Id {volunteerId}", request.VolunteerId);
         
         return result;
     }

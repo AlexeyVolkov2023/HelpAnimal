@@ -4,7 +4,6 @@ using HelpAnimal.Domain.AnimalManagement.AggregateRoot;
 using HelpAnimal.Domain.AnimalManagement.ValueObjects.ID;
 using HelpAnimal.Domain.Shared;
 using HelpAnimal.Domain.Shared.ValueObject;
-using HelpAnimal.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace HelpAnimal.Infrastructura.Repositories;
@@ -44,8 +43,6 @@ public class VolunteersRepository : IVolunteersRepository
         Volunteer volunteer,
         CancellationToken cancellationToken = default)
     {
-        _dbContext.Volunteers.Remove(volunteer);
-        
         await _dbContext.SaveChangesAsync(cancellationToken);
         
         return volunteer.Id;

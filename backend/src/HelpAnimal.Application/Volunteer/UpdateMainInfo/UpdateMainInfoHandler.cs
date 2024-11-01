@@ -40,7 +40,7 @@ public class UpdateMainInfoHandler
 
         var result = await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
         
-        _logger.LogInformation("Updated volunteer with Id {volunteerId}", request.VolunteerId);
+        _logger.LogInformation("Updated main info for volunteer with Id {volunteerId}", request.VolunteerId);
         
         return result;
     }
